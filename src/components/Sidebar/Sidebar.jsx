@@ -19,7 +19,8 @@ export default function Sidebar({
   startRename, 
   finishRename, 
   deleteThread,
-  threads
+  threads,
+  puterUser
 }) {
   return (
     <>
@@ -30,6 +31,11 @@ export default function Sidebar({
             <button className="settings-gear" title="SETTINGS" onClick={onShowSettings}>[*]</button>
             <button className="btn-new" onClick={onNewThread}>{t('new_thread')}</button>
           </div>
+          {puterUser?.username && (
+            <div style={{ fontSize: '9px', color: '#00ff00', fontFamily: "'Fira Code', monospace", marginTop: '5px', opacity: 0.7 }}>
+              ● PUTER_CONNECTED: {puterUser.username.toUpperCase()}
+            </div>
+          )}
         </div>
         <div className="search-bar">
           <input 

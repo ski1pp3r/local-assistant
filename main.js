@@ -12,6 +12,7 @@ protocol.registerSchemesAsPrivileged([
 
 // ---------- Auto Updater ----------
 autoUpdater.autoDownload = true;
+autoUpdater.forceDevUpdateConfig = true; // Force update check in dev mode
 autoUpdater.on('update-downloaded', (info) => {
   if (mainWindow) {
     mainWindow.webContents.send('update-status', { status: 'downloaded', info });
@@ -270,6 +271,10 @@ function createWindow() {
         }
       };
     }
+    if (url.startsWith('https://puter.com') || url.startsWith('https://js.puter.com')) {
+      return { action: 'allow' };
+    }
+    shell.openExternal(url);
     return { action: 'deny' };
   });
 }

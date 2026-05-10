@@ -9,7 +9,7 @@ import {
 } from '../../services/ollama';
 import { translations } from '../../utils/translations';
 
-export default function SettingsPanel({ onClose, onSettingsChanged, onClearThreads }) {
+export default function SettingsPanel({ onClose, onSettingsChanged, onClearThreads, puterUser, setPuterUser }) {
   const [settings, setSettings] = useState(null);
   const [personalities, setPersonalities] = useState([]);
   const [editingP, setEditingP] = useState(null); 
@@ -18,7 +18,6 @@ export default function SettingsPanel({ onClose, onSettingsChanged, onClearThrea
   const [newModelName, setNewModelName] = useState('');
   const [pulling, setPulling] = useState(false);
   const [pullStatus, setPullStatus] = useState(null); 
-  const [puterUser, setPuterUser] = useState(null);
   const [updateStatus, setUpdateStatus] = useState('idle'); // idle, checking, available, not-available, downloading, downloaded, error
   const [updateProgress, setUpdateProgress] = useState(0);
 
@@ -29,11 +28,7 @@ export default function SettingsPanel({ onClose, onSettingsChanged, onClearThrea
       setPersonalities(await loadPersonalities());
       setModels(await fetchModels(s.ollama_url));
       
-      if (window.puter) {
-        if (await window.puter.auth.isSignedIn()) {
-          setPuterUser(await window.puter.auth.getUser());
-        }
-      }
+      
 
       if (window.electronAPI?.onUpdateStatus) {
         window.electronAPI.onUpdateStatus((info) => {

@@ -27,15 +27,23 @@
     "vite": "^6.0.7",
     "wait-on": "^8.0.3"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ski1pp3r/local-assistant.git"
+  },
   "build": {
     "appId": "com.offgrid.app",
     "productName": "OFFGRID",
     "directories": {
       "output": "release"
     },
-    "publish": {
-      "provider": "github"
-    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "ski1pp3r",
+        "repo": "local-assistant"
+      }
+    ],
     "files": [
       "main.js",
       "preload.js",

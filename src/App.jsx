@@ -23,7 +23,10 @@ import { translations } from './utils/translations';
 import { log, LOG_TYPES } from './utils/logger';
 
 export default function App() {
-  const { settings, models, updateSettings, setModels } = useSettings();
+  const { 
+    settings, models, updateSettings, setModels, 
+    puterUser, setPuterUser, checkPuterAuth 
+  } = useSettings();
   const [threads, setThreads] = useState({});
   const [activeId, setActiveId] = useState(null);
   const [personalities, setPersonalities] = useState([]);
@@ -220,6 +223,7 @@ export default function App() {
         finishRename={finishRename}
         deleteThread={handleDeleteThread}
         threads={threads}
+        puterUser={puterUser}
       />
 
       <div className="main">
@@ -292,6 +296,8 @@ export default function App() {
             saveThreads({});
             setActiveId(null);
           }}
+          puterUser={puterUser}
+          setPuterUser={setPuterUser}
         />
       )}
     </div>
