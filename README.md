@@ -156,6 +156,10 @@ To enhance privacy during remote communication and web search functionalities, w
 - Ensures the AI's external footprint is anonymized.
 - *Status: Experimental. Not production-ready. Architecture may change.*
 
+## Feedback & Contributions
+
+OFFGRID is a one-man project, built with passion for local and private AI. Any kind of tip, feedback, or idea is highly welcome! I would be very happy to hear from you if you try it out. Feel free to open an issue or reach out.
+
 ## License
 
 MIT License. See `LICENSE` for more information.
