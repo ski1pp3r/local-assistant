@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, memo } from 'react';
 
 /**
  * Advanced 3D Neural Cloud
@@ -6,7 +6,7 @@ import React, { useRef, useEffect } from 'react';
  * - Staggered synaptic growth (lines appear gradually).
  * - Technical labels and green aesthetic.
  */
-export default function NeuralCanvas({ active = false }) {
+export default memo(function NeuralCanvas({ active = false }) {
   const canvasRef = useRef(null);
   const stateRef = useRef({
     nodes: [],
@@ -220,4 +220,4 @@ export default function NeuralCanvas({ active = false }) {
       }}
     />
   );
-}
+});

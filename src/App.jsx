@@ -108,9 +108,22 @@ export default function App() {
   }, [models, selectedModel]);
 
   // ── Auto-scroll ──
+  const lastMsgCount = useRef(0);
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [threads, activeId]);
+    const count = activeMessages.length;
+    if (count !== lastMsgCount.current) {
+      lastMsgCount.current = count;
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [activeMessages.length]);
+
+  useEffect(() => {
+    if (!streaming) return;
+    const id = setInterval(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 300);
+    return () => clearInterval(id);
+  }, [streaming]);
 
   // ── Auto-resize textarea ──
   useEffect(() => {

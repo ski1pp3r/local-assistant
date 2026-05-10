@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { memo } from 'react';
 
-export default function Sidebar({ 
+export default memo(function Sidebar({ 
   collapsed, 
   setCollapsed, 
   t, 
@@ -84,4 +84,4 @@ export default function Sidebar({
       </button>
     </>
   );
-}
+});

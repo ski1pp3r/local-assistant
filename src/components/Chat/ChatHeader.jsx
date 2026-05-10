@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { memo } from 'react';
 
-export default function ChatHeader({ 
+export default memo(function ChatHeader({ 
   t, 
   models, 
   selectedModel, 
@@ -42,4 +42,4 @@ export default function ChatHeader({
       )}
     </div>
   );
-}
+});

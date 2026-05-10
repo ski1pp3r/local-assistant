@@ -16,7 +16,7 @@ export function useChat(threads, setThreads, selectedModel, selectedPId, persona
 
   const throttledSave = useCallback(async (data) => {
     const now = Date.now();
-    if (now - lastSaveRef.current > 1000) {
+    if (now - lastSaveRef.current > 2000) {
       await saveThreads(data);
       lastSaveRef.current = now;
     }
@@ -72,14 +72,33 @@ export function useChat(threads, setThreads, selectedModel, selectedPId, persona
         let autoTtsBuffer = '';
         stopTTS();
 
-        for await (const chunk of streamChat(ollamaUrl, selectedModel, apiMessages, abortRef.current.signal)) {
-          assistantMsg.content += chunk;
-          current = {
-            ...current,
-            [tid]: { ...current[tid], messages: [...current[tid].messages.slice(0, -1), { ...assistantMsg }] }
-          };
+        // --- Batched streaming: accumulate chunks and flush at ~30fps ---
+        let pendingContent = '';
+        let rafId = null;
+        let flushResolve = null;
+
+        const flushToState = () => {
+          if (!pendingContent) return;
+          assistantMsg.content += pendingContent;
+          pendingContent = '';
+          const updatedMessages = [...current[tid].messages.slice(0, -1), { ...assistantMsg }];
+          current = { ...current, [tid]: { ...current[tid], messages: updatedMessages } };
           setThreads({ ...current });
           throttledSave(current);
+          if (flushResolve) { flushResolve(); flushResolve = null; }
+        };
+
+        const scheduleFlush = () => {
+          if (rafId) return;
+          rafId = requestAnimationFrame(() => {
+            rafId = null;
+            flushToState();
+          });
+        };
+
+        for await (const chunk of streamChat(ollamaUrl, selectedModel, apiMessages, abortRef.current.signal)) {
+          pendingContent += chunk;
+          scheduleFlush();
 
           if (settings?.auto_tts && settings?.local_tts) {
             autoTtsBuffer += chunk;
@@ -102,6 +121,10 @@ export function useChat(threads, setThreads, selectedModel, selectedPId, persona
             }
           }
         }
+
+        // Final flush for any remaining content
+        if (rafId) cancelAnimationFrame(rafId);
+        flushToState();
         
         if (settings?.auto_tts && settings?.local_tts && autoTtsBuffer.trim()) {
           let cleanSentence = autoTtsBuffer.trim().replace(/<SEARCH>[\s\S]*?<\/SEARCH>/g, '').replace(/<FETCH>[\s\S]*?<\/FETCH>/g, '').trim();

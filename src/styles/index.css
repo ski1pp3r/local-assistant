@@ -271,6 +271,7 @@ button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, span, div {
   gap: 28px;
   position: relative;
   z-index: 2;
+  contain: layout style;
 }
 .msg {
   max-width: 88%;
@@ -279,6 +280,7 @@ button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, span, div {
   position: relative;
   padding-left: 90px;
   animation: msgSlideIn 0.2s ease;
+  will-change: contents;
 }
 @keyframes msgSlideIn {
   from { opacity: 0; transform: translateY(6px); }
@@ -396,6 +398,7 @@ button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, span, div {
   margin-left: 6px;
   vertical-align: middle;
   animation: cursorBlink 0.6s step-end infinite;
+  will-change: opacity;
 }
 
 /* ── input area ── */

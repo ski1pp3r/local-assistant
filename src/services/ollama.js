@@ -66,6 +66,7 @@ export async function* streamChat(ollamaUrl, model, messages, signal) {
   const reader = res.body.getReader();
   const decoder = new TextDecoder();
   let buffer = '';
+  let totalChars = 0;
 
   while (true) {
     const { done, value } = await reader.read();
@@ -80,12 +81,13 @@ export async function* streamChat(ollamaUrl, model, messages, signal) {
       try {
         const json = JSON.parse(line);
         if (json.message?.content) {
-          log(`CHUNK_RECEIVED: ${json.message.content.length} chars`, LOG_TYPES.API_RECV);
+          totalChars += json.message.content.length;
           yield json.message.content;
         }
       } catch (e) {}
     }
   }
+  log(`STREAM_COMPLETE: ${totalChars} total chars`, LOG_TYPES.API_RECV);
 }
 
 export async function extractUserInfo(ollamaUrl, model, currentInfo, lastUserMsg, lastAiMsg, language = 'de') {
