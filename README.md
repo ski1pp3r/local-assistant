@@ -108,9 +108,9 @@ To start OFFGRID and Ollama with a single click, you can create a Windows shortc
 Alternatively, you can use the `Start-OFFGRID.bat` file provided in the root directory. This file works automatically regardless of where the folder is located.
 
 **Easy Setup:**
-1. Right-click the `Start-OFFGRID.bat` file.
-2. Select **Send to > Desktop (create shortcut)**.
-3. Go to your desktop and rename the new shortcut to **OFFGRID**.
+1. Right-click the `Start-OFFGRID.bat` file and select **Create shortcut**.
+2. Drag the new shortcut onto your desktop.
+3. Rename it to **OFFGRID**.
 
 ### Stay Up to Date
 
