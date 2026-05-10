@@ -2,7 +2,7 @@
 
 **Your AI. Your machine. No cloud.**
 
-OFFGRID is a local-first AI chat terminal built with Electron and React. It connects to Ollama for 100% private LLM inference, runs Whisper locally for speech-to-text, and features neural memory that automatically remembers facts about you. A Raspberry Pi Pico 2 W can act as a Telegram bridge, giving you secure remote access to your local AI without exposing anything to the cloud.
+OFFGRID is a local-first AI chat terminal built with Electron and React. It connects to Ollama for 100% private LLM inference, runs Whisper locally for speech-to-text, and features neural memory that automatically remembers facts about you.
 
 ---
 
