@@ -95,14 +95,17 @@ This compiles the Vite React application into the `dist/` directory.
 To start OFFGRID and Ollama with a single click, you can create a Windows shortcut:
 
 1. Right-click on your desktop and select **New > Shortcut**.
-2. For the location of the item, enter the following (adjust the path to your folder if necessary):
+2. For the location of the item, enter the following (replace `C:\PATH\TO\OFFGRID` with the actual path where you cloned the folder):
    ```cmd
-   C:\WINDOWS\system32\cmd.exe /c start "" ollama serve & timeout /t 5 /nobreak >nul & cd /d "C:\Users\jonat\.gemini\antigravity\scratch\ai-chat" & npm run dev
+   C:\WINDOWS\system32\cmd.exe /c start "" ollama serve & timeout /t 5 /nobreak >nul & cd /d "C:\PATH\TO\OFFGRID" & npm run dev
    ```
 3. Name the shortcut **OFFGRID**.
 4. (Optional) Change the icon in the shortcut properties.
 
-Alternatively, you can use the `Start-OFFGRID.bat` file provided in the root directory.
+> [!TIP]
+> You can find the correct path by opening the OFFGRID folder in File Explorer, clicking the address bar at the top, and copying the text.
+
+Alternatively, you can use the `Start-OFFGRID.bat` file provided in the root directory. This file works automatically regardless of where the folder is located.
 
 ### Stay Up to Date
 
