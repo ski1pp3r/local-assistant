@@ -39,7 +39,7 @@ A floating terminal window shows every API call, transcription event, memory upd
 
 **Text-to-Speech (TTS):** The AI can read its answers out loud using Puter.js. 
 > [!WARNING]  
-> Please note that the TTS feature currently only works reliably in **English**. We are working hard to ensure that German and other languages work flawlessly in upcoming updates!
+> Please note that the TTS feature currently only works reliably in **English**. I am working hard to ensure that German and other languages work flawlessly in upcoming updates!
 
 ---
 
@@ -129,13 +129,13 @@ The application connects to Ollama via its local HTTP API (`http://localhost:114
 This project is actively evolving. Here are the planned systems currently in development:
 
 ### Local AI processing (in development)
-We are working on making the system fully run locally. Depending on complexity, this may take some time.
+I am working on making the system fully run locally. Depending on complexity, this may take some time.
 
 ### Improvement of the Text-to-Speech model (“Puter AI”)
-Currently, the TTS model only works reliably in English. We are actively working on adding support for German as well.
+Currently, the TTS model only works reliably in English. I am actively working on adding support for German as well.
 
 ### Raspberry Pi Telegram Bridge (In Development)
-To interact with the local AI while away from the computer without exposing the PC directly to the internet, we are building a secure bridge system.
+To interact with the local AI while away from the computer without exposing the PC directly to the internet, I am building a secure bridge system.
 
 - Uses a **Raspberry Pi Pico W** or **Raspberry Pi Zero 2W**.
 - Integrates with the **Telegram Bot API** (via BotFather).
@@ -144,14 +144,14 @@ To interact with the local AI while away from the computer without exposing the 
 - *Status: Experimental. Active development. Architecture may change.*
 
 ### Local File Access System (In Development)
-We are building an AI-controlled local file access system to allow the assistant to interact meaningfully with your local documents.
+I am building an AI-controlled local file access system to allow the assistant to interact meaningfully with your local documents.
 
 - **Planned features**: Reading text files, searching specific directories, and limited file management.
 - **Security**: All file access will require explicit user visibility and permission. The AI will generate requests that the main application intercepts and asks the user to approve.
 - *Status: Experimental. Security-focused implementation planned.*
 
 ### Mullvad VPN Integration (In Development)
-To enhance privacy during remote communication and web search functionalities, we are exploring Mullvad VPN integration.
+To enhance privacy during remote communication and web search functionalities, I am exploring Mullvad VPN integration.
 
 - **Purpose**: Route specific application traffic (like automated browser searches or the Telegram bridge traffic) through encrypted VPN tunnels via local SOCKS5 proxies.
 - Ensures the AI's external footprint is anonymized.
