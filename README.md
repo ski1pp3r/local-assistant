@@ -6,7 +6,7 @@ OFFGRID is a local-first AI chat terminal built with Electron and React. It prio
 
 ---
 
-## 🛡️ Privacy & Data Flow
+## Privacy and Data Flow
 
 | Feature | Technology | Data Location | Internet Required? |
 | :--- | :--- | :--- | :--- |
@@ -20,19 +20,19 @@ OFFGRID is a local-first AI chat terminal built with Electron and React. It prio
 
 ## What It Does
 
-### 🧠 Chat with Local AI
+### Chat with Local AI
 Connect to any Ollama model. Conversations stay on your machine. Multiple threads, Markdown rendering, syntax highlighting, and export capabilities.
 
-### 💾 Neural Memory
+### Neural Memory
 The AI notices when you share personal facts (name, job, interests) and saves them automatically. These facts persist across sessions and shape how the AI responds to you, creating a persistent, local context.
 
-### 🌐 Web Tools (Optional)
+### Web Tools (Optional)
 Enable browser access and the AI can search the web or read URLs. It uses `<SEARCH>` and `<FETCH>` tags to process real-time information.
 
-### 🎭 Custom Personalities
+### Custom Personalities
 Create AI personas with custom names, behavioral rules, and user profiles. Switch between a coding assistant, a creative writer, or a stoic philosopher instantly.
 
-### 📟 Process Monitor
+### Process Monitor
 A floating terminal window (Ctrl+Shift+T) shows every API call, transcription event, and memory update in real time. **Transparency is key.**
 
 ---
@@ -46,13 +46,13 @@ A floating terminal window (Ctrl+Shift+T) shows every API call, transcription ev
 
 ---
 
-## Installation & Setup
+## Installation and Setup
 
 ### Prerequisites
 - [Node.js](https://nodejs.org/) (Latest LTS)
 - [Ollama](https://ollama.com/) (Running locally)
 
-### 1. Clone & Install
+### 1. Clone and Install
 ```bash
 git clone https://github.com/ski1pp3r/local-assistant.git
 cd local-assistant
@@ -73,7 +73,7 @@ The installer will be generated in the `release/` directory.
 
 ---
 
-## 🔄 Updates
+## Updates
 
 If you built from source, update easily:
 
@@ -86,7 +86,7 @@ npm run update
 
 ---
 
-## 🗺️ Roadmap
+## Roadmap
 
 - [ ] **Fully Local TTS**: Integration of Piper or Coqui TTS to remove the cloud dependency for voice.
 - [ ] **Local File Access**: AI-controlled system to read/search your local documents with explicit permissions.
@@ -95,7 +95,7 @@ npm run update
 
 ---
 
-## Feedback & Contributions
+## Feedback and Contributions
 
 OFFGRID is a passion project for private AI. Feedback, tips, or ideas are highly welcome! Feel free to open an issue or reach out.
 
