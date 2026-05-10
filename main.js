@@ -13,6 +13,7 @@ protocol.registerSchemesAsPrivileged([
 // ---------- Auto Updater ----------
 autoUpdater.autoDownload = true;
 autoUpdater.forceDevUpdateConfig = true; // Force update check in dev mode
+autoUpdater.logger = console;
 autoUpdater.on('update-downloaded', (info) => {
   if (mainWindow) {
     mainWindow.webContents.send('update-status', { status: 'downloaded', info });
