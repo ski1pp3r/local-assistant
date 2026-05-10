@@ -102,12 +102,29 @@ npm run dist
 > [!IMPORTANT]
 > End users should always use the installer. Development mode is only for contributing to the source code.
 
-## Automatic Updates
+## Updates
 
-The application is configured with `electron-updater`.
-- Updates are delivered seamlessly through GitHub Releases.
-- Whenever you launch the app, it silently checks if a newer version is available on GitHub.
-- If an update is found, it downloads automatically in the background and prompts you to restart the app to install it.
+OFFGRID is designed for privacy and transparency. Since many users build the application from source, updates are handled through a manual check and terminal command:
+
+### Check for Updates (UI)
+- Open the settings panel in the application.
+- Click on **"Check for Updates"**.
+- If a newer version is found on GitHub, the app will notify you and provide a link to the latest release.
+
+### Update via Terminal
+If you have cloned the repository and built the app yourself, you can update to the latest version with a single command:
+
+```bash
+npm run update
+```
+
+**What this command does:**
+1. Pulls the latest source code from GitHub (`git pull`).
+2. Installs any new dependencies (`npm install`).
+3. Rebuilds the application assets (`npm run build`).
+
+After the update, simply restart the application or run `npm run dev` to see the changes.
+
 
 ## Ollama Setup Guide
 
