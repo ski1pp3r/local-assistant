@@ -13,6 +13,9 @@ protocol.registerSchemesAsPrivileged([
 // ---------- Auto Updater ----------
 autoUpdater.autoDownload = true;
 autoUpdater.on('update-downloaded', (info) => {
+  if (mainWindow) {
+    mainWindow.webContents.send('update-status', { status: 'downloaded', info });
+  }
   dialog.showMessageBox({
     type: 'info',
     title: 'Update Ready',
@@ -23,6 +26,26 @@ autoUpdater.on('update-downloaded', (info) => {
       autoUpdater.quitAndInstall(false, true);
     }
   });
+});
+
+autoUpdater.on('checking-for-update', () => {
+  if (mainWindow) mainWindow.webContents.send('update-status', { status: 'checking' });
+});
+
+autoUpdater.on('update-available', (info) => {
+  if (mainWindow) mainWindow.webContents.send('update-status', { status: 'available', info });
+});
+
+autoUpdater.on('update-not-available', (info) => {
+  if (mainWindow) mainWindow.webContents.send('update-status', { status: 'not-available', info });
+});
+
+autoUpdater.on('download-progress', (progress) => {
+  if (mainWindow) mainWindow.webContents.send('update-status', { status: 'downloading', progress });
+});
+
+autoUpdater.on('error', (err) => {
+  if (mainWindow) mainWindow.webContents.send('update-status', { status: 'error', error: err.message });
 });
 
 // ---------- portable data path ----------
@@ -195,6 +218,10 @@ ipcMain.handle('fetch-url', async (_event, url) => {
       resolve('Error: Timeout');
     });
   });
+});
+
+ipcMain.handle('check-for-updates', async () => {
+  return await autoUpdater.checkForUpdates();
 });
 
 

@@ -49,6 +49,12 @@ export const translations = {
     puter_login_btn: "Anmelden",
     puter_logout_btn: "Abmelden",
     puter_logged_in_as: "Angemeldet als:",
+    check_updates: "Nach Updates suchen",
+    checking_updates: "Suche nach Updates...",
+    update_available: "Update verfügbar! Wird heruntergeladen...",
+    update_not_available: "App ist auf dem neuesten Stand.",
+    update_error: "Fehler beim Update-Check.",
+    update_downloaded: "Update bereit. Neustarten zum Installieren.",
   },
   en: {
     sidebar_header: "[ SYSTEM.INTERFACE ]",
@@ -100,5 +106,11 @@ export const translations = {
     puter_login_btn: "Login",
     puter_logout_btn: "Logout",
     puter_logged_in_as: "Logged in as:",
+    check_updates: "Check for Updates",
+    checking_updates: "Checking for updates...",
+    update_available: "Update available! Downloading...",
+    update_not_available: "App is up to date.",
+    update_error: "Error checking for updates.",
+    update_downloaded: "Update ready. Restart to install.",
   }
 };

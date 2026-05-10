@@ -16,6 +16,8 @@ export default function SettingsPanel({ onClose, onSettingsChanged, onClearThrea
   const [pulling, setPulling] = useState(false);
   const [pullStatus, setPullStatus] = useState(null); 
   const [puterUser, setPuterUser] = useState(null);
+  const [updateStatus, setUpdateStatus] = useState('idle'); // idle, checking, available, not-available, downloading, downloaded, error
+  const [updateProgress, setUpdateProgress] = useState(0);
 
   useEffect(() => {
     (async () => {
@@ -29,8 +31,28 @@ export default function SettingsPanel({ onClose, onSettingsChanged, onClearThrea
           setPuterUser(await window.puter.auth.getUser());
         }
       }
+
+      if (window.electronAPI?.onUpdateStatus) {
+        window.electronAPI.onUpdateStatus((info) => {
+          setUpdateStatus(info.status);
+          if (info.status === 'downloading' && info.progress) {
+            setUpdateProgress(Math.round(info.progress.percent));
+          }
+        });
+      }
     })();
   }, []);
+
+  const handleCheckUpdates = async () => {
+    if (!window.electronAPI) return;
+    setUpdateStatus('checking');
+    try {
+      await window.electronAPI.checkForUpdates();
+    } catch (e) {
+      setUpdateStatus('error');
+      console.error('Update check error:', e);
+    }
+  };
 
   const handlePuterLogin = async () => {
     if (!window.puter) return;
@@ -271,6 +293,38 @@ export default function SettingsPanel({ onClose, onSettingsChanged, onClearThrea
           >
             {t('clear_threads')}
           </button>
+        </div>
+
+        <hr className="divider" />
+
+        <div className="update-section">
+          <label>SYSTEM UPDATE</label>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, background: 'rgba(255,255,255,0.03)', padding: '12px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.1)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div style={{ fontSize: '12px', color: '#888', fontFamily: "'Fira Code', monospace" }}>
+                {updateStatus === 'idle' && "No check performed."}
+                {updateStatus === 'checking' && t('checking_updates')}
+                {updateStatus === 'available' && t('update_available')}
+                {updateStatus === 'not-available' && t('update_not_available')}
+                {updateStatus === 'downloading' && `${t('update_available')} (${updateProgress}%)`}
+                {updateStatus === 'downloaded' && t('update_downloaded')}
+                {updateStatus === 'error' && t('update_error')}
+              </div>
+              <button 
+                className="btn-primary" 
+                style={{ padding: '6px 12px', fontSize: '11px' }} 
+                onClick={handleCheckUpdates}
+                disabled={updateStatus === 'checking' || updateStatus === 'downloading'}
+              >
+                {t('check_updates')}
+              </button>
+            </div>
+            {updateStatus === 'downloading' && (
+              <div className="progress-bar-bg" style={{ height: '4px', marginTop: '4px' }}>
+                <div className="progress-bar-fill" style={{ width: `${updateProgress}%`, height: '100%' }} />
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="puter-account-section">
