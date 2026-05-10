@@ -34,11 +34,12 @@ Create AI personas with custom names, behavioral rules, and user profiles. Switc
 ### Process Monitor
 A floating terminal window shows every API call, transcription event, memory update, and error in real time. Open it with Ctrl+Shift+T.
 
-### Features
-Text-to-Speech (TTS) support
-Speech-to-Text (STT) dictation
-Fully bilingual: German and English
-Dynamic Speech-to-Text model switching based on selected language
+### Voice Interaction (STT & TTS)
+**Speech-to-Text (STT):** Dictate your messages easily. The application uses a local transcription model (running directly in your browser) to guarantee your privacy. It dynamically switches transcription logic depending on your selected language (German or English).
+
+**Text-to-Speech (TTS):** The AI can read its answers out loud using Puter AI. 
+> [!WARNING]  
+> Please note that the TTS feature currently only works reliably in **English**. We are working hard to ensure that German and other languages work flawlessly in upcoming updates!
 
 ---
 
