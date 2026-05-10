@@ -144,6 +144,9 @@ After updating the source, rebuild the production assets to ensure you are runni
 npm run build
 ```
 
+> [!TIP]
+> If you see security warnings after `npm run update`, you can try to resolve them by running `npm audit fix --force`.
+
 #### 3. Where is my Data?
 Your chats, settings, and personalities are stored in a folder named `data/` in your project root.
 
