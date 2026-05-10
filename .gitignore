@@ -1,0 +1,9 @@
+node_modules
+dist
+dist-electron
+out
+*.log
+docs/IMPLEMENTATION_PLAN.md
+release
+data
+.env
