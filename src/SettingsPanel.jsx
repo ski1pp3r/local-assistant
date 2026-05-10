@@ -15,6 +15,7 @@ export default function SettingsPanel({ onClose, onSettingsChanged, onClearThrea
   const [newModelName, setNewModelName] = useState('');
   const [pulling, setPulling] = useState(false);
   const [pullStatus, setPullStatus] = useState(null); 
+  const [puterUser, setPuterUser] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -22,8 +23,30 @@ export default function SettingsPanel({ onClose, onSettingsChanged, onClearThrea
       setSettings(s);
       setPersonalities(await loadPersonalities());
       setModels(await fetchModels(s.ollama_url));
+      
+      if (window.puter) {
+        if (await window.puter.auth.isSignedIn()) {
+          setPuterUser(await window.puter.auth.getUser());
+        }
+      }
     })();
   }, []);
+
+  const handlePuterLogin = async () => {
+    if (!window.puter) return;
+    try {
+      const user = await window.puter.auth.signIn();
+      setPuterUser(user);
+    } catch (e) {
+      console.error('Puter Login Error:', e);
+    }
+  };
+
+  const handlePuterLogout = async () => {
+    if (!window.puter) return;
+    window.puter.auth.signOut();
+    setPuterUser(null);
+  };
 
   const t = (key) => {
     const lang = settings?.ui_language || 'de';
@@ -248,6 +271,31 @@ export default function SettingsPanel({ onClose, onSettingsChanged, onClearThrea
           >
             {t('clear_threads')}
           </button>
+        </div>
+
+        <div className="puter-account-section">
+          <label>{t('puter_login_label')}</label>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'rgba(255,255,255,0.03)', padding: '10px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.1)' }}>
+            {puterUser ? (
+              <>
+                <div style={{ flex: 1, fontSize: '13px' }}>
+                  <span style={{ color: '#888' }}>{t('puter_logged_in_as')}</span> <span style={{ color: '#fff', fontWeight: 'bold' }}>{puterUser.username}</span>
+                </div>
+                <button className="btn-secondary" style={{ padding: '4px 10px', fontSize: '11px' }} onClick={handlePuterLogout}>
+                  {t('puter_logout_btn')}
+                </button>
+              </>
+            ) : (
+              <>
+                <div style={{ flex: 1, fontSize: '12px', color: '#888' }}>
+                  Verbinde dein Konto für Cloud-Features.
+                </div>
+                <button className="btn-primary" style={{ padding: '6px 12px', fontSize: '12px' }} onClick={handlePuterLogin}>
+                  {t('puter_login_btn')}
+                </button>
+              </>
+            )}
+          </div>
         </div>
 
         <hr className="divider" />

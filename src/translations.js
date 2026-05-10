@@ -45,6 +45,10 @@ export const translations = {
     export_json: "Als JSON exportieren",
     clear_threads: "Threads löschen",
     clear_threads_confirm: "Alle Threads wirklich löschen? Dies kann nicht rückgängig gemacht werden.",
+    puter_login_label: "Puter.js Konto",
+    puter_login_btn: "Anmelden",
+    puter_logout_btn: "Abmelden",
+    puter_logged_in_as: "Angemeldet als:",
   },
   en: {
     sidebar_header: "[ SYSTEM.INTERFACE ]",
@@ -92,5 +96,9 @@ export const translations = {
     export_json: "Export as JSON",
     clear_threads: "Clear Threads",
     clear_threads_confirm: "Really delete all threads? This action cannot be undone.",
+    puter_login_label: "Puter.js Account",
+    puter_login_btn: "Login",
+    puter_logout_btn: "Logout",
+    puter_logged_in_as: "Logged in as:",
   }
 };
