@@ -109,7 +109,7 @@ Ollama is a tool that allows you to run open-source large language models locall
    ```bash
    ollama serve
    ```
-3. **Download Models**: Open a terminal and pull the models you wish to use:
+3. **Download Models**: Open a terminal and pull the models you wish to use. You can browse all available models at the [Ollama Models Library](https://ollama.com/library):
    ```bash
    ollama pull llama3
    ollama pull mistral
