@@ -111,7 +111,22 @@ OFFGRID is designed for privacy and transparency. Since many users build the app
 - Click on **"Check for Updates"**.
 - If a newer version is found on GitHub, the app will notify you and provide a link to the latest release.
 
-### Update via Terminal
+### Updating Binary Releases
+
+If you are using the pre-compiled `.exe` versions:
+
+#### 1. Portable Version (`OFFGRID-Portable.exe`)
+To update, simply download the latest `OFFGRID-Portable.exe` and replace the old one. 
+- **Important:** Keep the `data` folder in the same directory as the executable. This folder contains all your chats, settings, and personalities.
+
+#### 2. Windows Installer (`OFFGRID-Setup.exe`)
+Run the new installer. It will automatically overwrite the previous installation.
+- **Tip:** Your data is stored in a `data` folder within the installation directory. To be safe, you can back up this folder before running a new installer.
+
+---
+
+### Update via Terminal (Source Code)
+
 If you have cloned the repository and built the app yourself, you can update to the latest version with a single command:
 
 ```bash
@@ -119,14 +134,16 @@ npm run update
 ```
 
 > [!IMPORTANT]
-> This command **must** be run inside your development folder (where the `package.json` file is). It will not work inside the installed application directory in `AppData`.
+> This command **must** be run inside your development folder (where the `package.json` file is).
 
 **What this command does:**
 1. Pulls the latest source code from GitHub (`git pull`).
 2. Installs any new dependencies (`npm install`).
 3. Rebuilds the application assets (`npm run build`).
 
-After the update, simply restart the application or run `npm run dev` to see the changes.
+> [!TIP]
+> Always keep a backup of your `data` folder if you want to ensure your local chat history is never lost during major system changes or updates.
+
 
 
 ## Ollama Setup Guide
