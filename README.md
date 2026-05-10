@@ -140,12 +140,10 @@ npm run build
 ```
 
 #### 3. Where is my Data?
-Your chats, settings, and personalities are stored in a folder named `data/`.
-- **Development Mode:** The `data/` folder is in your project root.
-- **Packaged App (`.exe`):** The `data/` folder is created in the same directory as the executable.
+Your chats, settings, and personalities are stored in a folder named `data/` in your project root.
 
 > [!IMPORTANT]
-> When updating your installed version, always ensure you have a backup of the `data/` folder. While the installer usually preserves subdirectories, a manual backup is the only way to guarantee your local AI history is 100% safe.
+> When updating your version, always ensure you have a backup of the `data/` folder. While Git usually ignores this folder, a manual backup is the only way to guarantee your local AI history is 100% safe.
 
 
 
