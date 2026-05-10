@@ -301,10 +301,10 @@ export default function SettingsPanel({ onClose, onSettingsChanged, onClearThrea
         <hr className="divider" />
 
         <div className="update-section">
-          <label>SYSTEM UPDATE</label>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, background: 'rgba(255,255,255,0.03)', padding: '12px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.1)' }}>
+          <label style={{ fontSize: '8px' }}>SYSTEM UPDATE</label>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6, background: 'rgba(255,255,255,0.02)', padding: '8px 12px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.05)' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <div style={{ fontSize: '12px', color: '#888', fontFamily: "'Fira Code', monospace" }}>
+              <div style={{ fontSize: '11px', color: '#777', fontFamily: "'Fira Code', monospace" }}>
                 {updateStatus === 'idle' && "Check current source version."}
                 {updateStatus === 'checking' && t('checking_updates')}
                 {updateStatus === 'available' && (
@@ -315,11 +315,11 @@ export default function SettingsPanel({ onClose, onSettingsChanged, onClearThrea
                 {updateStatus === 'up-to-date' && t('update_not_available')}
                 {updateStatus === 'error' && t('update_error')}
               </div>
-              <div style={{ display: 'flex', gap: 10 }}>
+              <div style={{ display: 'flex', gap: 6 }}>
                 {updateStatus === 'available' && (
                   <button 
                     className="btn-primary" 
-                    style={{ padding: '6px 12px', fontSize: '11px', background: '#00ff00', color: '#000' }} 
+                    style={{ padding: '4px 8px', fontSize: '10px', background: '#00ff00', color: '#000' }} 
                     onClick={handleOpenRelease}
                   >
                     GET_LATEST
@@ -327,7 +327,7 @@ export default function SettingsPanel({ onClose, onSettingsChanged, onClearThrea
                 )}
                 <button 
                   className="btn-primary" 
-                  style={{ padding: '6px 12px', fontSize: '11px' }} 
+                  style={{ padding: '4px 8px', fontSize: '10px' }} 
                   onClick={handleCheckUpdates}
                   disabled={updateStatus === 'checking'}
                 >
@@ -336,31 +336,31 @@ export default function SettingsPanel({ onClose, onSettingsChanged, onClearThrea
               </div>
             </div>
             {updateStatus === 'available' && (
-              <div style={{ fontSize: '10px', color: '#888', fontStyle: 'italic' }}>
+              <div style={{ fontSize: '9px', color: '#666', fontStyle: 'italic' }}>
                 * New code available on GitHub. Please pull and rebuild your EXE.
               </div>
             )}
           </div>
         </div>
 
-        <div className="puter-account-section">
-          <label>{t('puter_login_label')}</label>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'rgba(255,255,255,0.03)', padding: '10px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.1)' }}>
+        <div className="puter-account-section" style={{ marginTop: 12 }}>
+          <label style={{ fontSize: '8px' }}>{t('puter_login_label')}</label>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.02)', padding: '6px 12px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.05)' }}>
             {puterUser ? (
               <>
-                <div style={{ flex: 1, fontSize: '13px' }}>
-                  <span style={{ color: '#888' }}>{t('puter_logged_in_as')}</span> <span style={{ color: '#fff', fontWeight: 'bold' }}>{puterUser.username}</span>
+                <div style={{ flex: 1, fontSize: '12px' }}>
+                  <span style={{ color: '#666' }}>{t('puter_logged_in_as')}</span> <span style={{ color: '#fff', fontWeight: '600' }}>{puterUser.username}</span>
                 </div>
-                <button className="btn-secondary" style={{ padding: '4px 10px', fontSize: '11px' }} onClick={handlePuterLogout}>
+                <button className="btn-secondary" style={{ padding: '3px 8px', fontSize: '10px' }} onClick={handlePuterLogout}>
                   {t('puter_logout_btn')}
                 </button>
               </>
             ) : (
               <>
-                <div style={{ flex: 1, fontSize: '12px', color: '#888' }}>
-                  Verbinde dein Konto für Cloud-Features.
+                <div style={{ flex: 1, fontSize: '11px', color: '#666' }}>
+                  Connect for cloud features.
                 </div>
-                <button className="btn-primary" style={{ padding: '6px 12px', fontSize: '12px' }} onClick={handlePuterLogin}>
+                <button className="btn-primary" style={{ padding: '4px 10px', fontSize: '11px' }} onClick={handlePuterLogin}>
                   {t('puter_login_btn')}
                 </button>
               </>

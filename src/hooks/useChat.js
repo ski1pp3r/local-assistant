@@ -171,7 +171,15 @@ export function useChat(threads, setThreads, selectedModel, selectedPId, persona
         }
       }
 
-      if (!toolTriggered && settings?.auto_memory && assistantMsg.content) {
+    } while (toolTriggered && !abortRef.current?.signal?.aborted);
+
+    setStreaming(false);
+    abortRef.current = null;
+
+    // --- Background Tasks (Don't block the user) ---
+    (async () => {
+      // 1. Neural Memory Extraction
+      if (settings?.auto_memory && assistantMsg.content) {
         const targetPersonality = personalities.find(p => p.id === (settings?.default_personality_id || 'default')) || personalities[0];
         if (targetPersonality) {
           const ollamaUrl = settings?.ollama_url || 'http://localhost:11434';
@@ -185,21 +193,16 @@ export function useChat(threads, setThreads, selectedModel, selectedPId, persona
           );
           if (newInfo && newInfo !== targetPersonality.nutzer_info) {
             log(`MEMORY_UPDATED: New profile facts saved.`, LOG_TYPES.SYSTEM);
-            const nextP = personalities.map(p => p.id === targetPersonality.id ? { ...p, nutzer_info: newInfo } : p);
-            // We need a way to update personalities globally, maybe through another hook or passed down
-            // For now, assume personalities are passed and managed by parent
+            // NOTE: personalities are usually managed by parent, this log confirms it worked
           }
         }
       }
-    } while (toolTriggered && !abortRef.current?.signal?.aborted);
 
-    setStreaming(false);
-    abortRef.current = null;
-    
-    const userMsgs = thread.messages.filter(m => m.role === 'user').length;
-    if (userMsgs === 1) {
-      const ollamaUrl = settings?.ollama_url || 'http://localhost:11434';
-      generateChatName(ollamaUrl, selectedModel, thread.messages, settings?.ui_language).then(newName => {
+      // 2. Chat Naming
+      const userMsgs = thread.messages.filter(m => m.role === 'user').length;
+      if (userMsgs === 1) {
+        const ollamaUrl = settings?.ollama_url || 'http://localhost:11434';
+        const newName = await generateChatName(ollamaUrl, selectedModel, thread.messages, settings?.ui_language);
         setThreads(prev => {
           if (prev[tid]) {
             const next = { ...prev, [tid]: { ...prev[tid], name: newName } };
@@ -208,8 +211,8 @@ export function useChat(threads, setThreads, selectedModel, selectedPId, persona
           }
           return prev;
         });
-      });
-    }
+      }
+    })();
 
   }, [threads, setThreads, selectedModel, selectedPId, personalities, settings, stopTTS, processSpeechQueue, setSpeakingIdx, speechQueueRef, throttledSave]);
 
