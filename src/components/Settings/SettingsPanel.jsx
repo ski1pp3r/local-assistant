@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react';
 import {
   loadSettings, saveSettings,
   loadPersonalities, savePersonalities,
-  generateId, fetchModels, pullModel, deleteModel
-} from './data';
-import { translations } from './translations';
+  generateId
+} from '../../utils/persistence';
+import { 
+  fetchModels, pullModel, deleteModel 
+} from '../../services/ollama';
+import { translations } from '../../utils/translations';
 
 export default function SettingsPanel({ onClose, onSettingsChanged, onClearThreads }) {
   const [settings, setSettings] = useState(null);
