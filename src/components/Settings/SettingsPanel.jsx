@@ -18,8 +18,8 @@ export default function SettingsPanel({ onClose, onSettingsChanged, onClearThrea
   const [newModelName, setNewModelName] = useState('');
   const [pulling, setPulling] = useState(false);
   const [pullStatus, setPullStatus] = useState(null); 
-  const [updateStatus, setUpdateStatus] = useState('idle'); // idle, checking, available, not-available, downloading, downloaded, error
-  const [updateProgress, setUpdateProgress] = useState(0);
+  const [updateStatus, setUpdateStatus] = useState('idle'); // idle, checking, available, up-to-date, error
+  const [updateInfo, setUpdateInfo] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -30,14 +30,7 @@ export default function SettingsPanel({ onClose, onSettingsChanged, onClearThrea
       
       
 
-      if (window.electronAPI?.onUpdateStatus) {
-        window.electronAPI.onUpdateStatus((info) => {
-          setUpdateStatus(info.status);
-          if (info.status === 'downloading' && info.progress) {
-            setUpdateProgress(Math.round(info.progress.percent));
-          }
-        });
-      }
+      
     })();
   }, []);
 
@@ -45,10 +38,22 @@ export default function SettingsPanel({ onClose, onSettingsChanged, onClearThrea
     if (!window.electronAPI) return;
     setUpdateStatus('checking');
     try {
-      await window.electronAPI.checkForUpdates();
+      const res = await window.electronAPI.checkForUpdates();
+      if (res.error) {
+        setUpdateStatus('error');
+      } else {
+        setUpdateInfo(res);
+        setUpdateStatus(res.isNewer ? 'available' : 'up-to-date');
+      }
     } catch (e) {
       setUpdateStatus('error');
       console.error('Update check error:', e);
+    }
+  };
+
+  const handleOpenRelease = () => {
+    if (updateInfo?.url) {
+      window.electronAPI.openExternal(updateInfo.url);
     }
   };
 
@@ -300,26 +305,39 @@ export default function SettingsPanel({ onClose, onSettingsChanged, onClearThrea
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8, background: 'rgba(255,255,255,0.03)', padding: '12px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.1)' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div style={{ fontSize: '12px', color: '#888', fontFamily: "'Fira Code', monospace" }}>
-                {updateStatus === 'idle' && "No check performed."}
+                {updateStatus === 'idle' && "Check current source version."}
                 {updateStatus === 'checking' && t('checking_updates')}
-                {updateStatus === 'available' && t('update_available')}
-                {updateStatus === 'not-available' && t('update_not_available')}
-                {updateStatus === 'downloading' && `${t('update_available')} (${updateProgress}%)`}
-                {updateStatus === 'downloaded' && t('update_downloaded')}
+                {updateStatus === 'available' && (
+                  <span style={{ color: '#00ff00' }}>
+                    {t('update_available')} (v{updateInfo?.latest})
+                  </span>
+                )}
+                {updateStatus === 'up-to-date' && t('update_not_available')}
                 {updateStatus === 'error' && t('update_error')}
               </div>
-              <button 
-                className="btn-primary" 
-                style={{ padding: '6px 12px', fontSize: '11px' }} 
-                onClick={handleCheckUpdates}
-                disabled={updateStatus === 'checking' || updateStatus === 'downloading'}
-              >
-                {t('check_updates')}
-              </button>
+              <div style={{ display: 'flex', gap: 10 }}>
+                {updateStatus === 'available' && (
+                  <button 
+                    className="btn-primary" 
+                    style={{ padding: '6px 12px', fontSize: '11px', background: '#00ff00', color: '#000' }} 
+                    onClick={handleOpenRelease}
+                  >
+                    GET_LATEST
+                  </button>
+                )}
+                <button 
+                  className="btn-primary" 
+                  style={{ padding: '6px 12px', fontSize: '11px' }} 
+                  onClick={handleCheckUpdates}
+                  disabled={updateStatus === 'checking'}
+                >
+                  {t('check_updates')}
+                </button>
+              </div>
             </div>
-            {updateStatus === 'downloading' && (
-              <div className="progress-bar-bg" style={{ height: '4px', marginTop: '4px' }}>
-                <div className="progress-bar-fill" style={{ width: `${updateProgress}%`, height: '100%' }} />
+            {updateStatus === 'available' && (
+              <div style={{ fontSize: '10px', color: '#888', fontStyle: 'italic' }}>
+                * New code available on GitHub. Please pull and rebuild your EXE.
               </div>
             )}
           </div>

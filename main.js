@@ -3,52 +3,45 @@ const path = require('path');
 const fs = require('fs');
 const { spawn, exec } = require('child_process');
 const http = require('http');
+const https = require('https');
 const { pathToFileURL } = require('url');
-const { autoUpdater } = require('electron-updater');
 
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true, supportFetchAPI: true } }
 ]);
 
-// ---------- Auto Updater ----------
-autoUpdater.autoDownload = true;
-autoUpdater.forceDevUpdateConfig = true; // Force update check in dev mode
-autoUpdater.logger = console;
-autoUpdater.on('update-downloaded', (info) => {
-  if (mainWindow) {
-    mainWindow.webContents.send('update-status', { status: 'downloaded', info });
-  }
-  dialog.showMessageBox({
-    type: 'info',
-    title: 'Update Ready',
-    message: 'A new update is ready to install. Restart application to apply the update.',
-    buttons: ['Restart Now', 'Later']
-  }).then((result) => {
-    if (result.response === 0) {
-      autoUpdater.quitAndInstall(false, true);
-    }
+// ---------- Manual Version Check ----------
+async function checkNewVersion() {
+  return new Promise((resolve) => {
+    const options = {
+      hostname: 'api.github.com',
+      path: '/repos/ski1pp3r/local-assistant/releases/latest',
+      headers: { 'User-Agent': 'OFFGRID-App' }
+    };
+
+    https.get(options, (res) => {
+      let data = '';
+      res.on('data', (chunk) => data += chunk);
+      res.on('end', () => {
+        try {
+          if (res.statusCode !== 200) return resolve({ error: 'GitHub API error' });
+          const release = JSON.parse(data);
+          const latestVersion = release.tag_name.replace('v', '');
+          const currentVersion = app.getVersion();
+          
+          resolve({
+            current: currentVersion,
+            latest: latestVersion,
+            isNewer: latestVersion !== currentVersion,
+            url: release.html_url
+          });
+        } catch (e) {
+          resolve({ error: e.message });
+        }
+      });
+    }).on('error', (e) => resolve({ error: e.message }));
   });
-});
-
-autoUpdater.on('checking-for-update', () => {
-  if (mainWindow) mainWindow.webContents.send('update-status', { status: 'checking' });
-});
-
-autoUpdater.on('update-available', (info) => {
-  if (mainWindow) mainWindow.webContents.send('update-status', { status: 'available', info });
-});
-
-autoUpdater.on('update-not-available', (info) => {
-  if (mainWindow) mainWindow.webContents.send('update-status', { status: 'not-available', info });
-});
-
-autoUpdater.on('download-progress', (progress) => {
-  if (mainWindow) mainWindow.webContents.send('update-status', { status: 'downloading', progress });
-});
-
-autoUpdater.on('error', (err) => {
-  if (mainWindow) mainWindow.webContents.send('update-status', { status: 'error', error: err.message });
-});
+}
 
 // ---------- portable data path ----------
 function getDataPath() {
@@ -124,19 +117,13 @@ ipcMain.handle('check-ollama', async (_event, url) => {
 
 ipcMain.handle('start-ollama', async () => {
   try {
-    // Check if ollama is in path
     return new Promise((resolve) => {
       exec('ollama --version', (err) => {
         if (err) {
-          console.error('Ollama not found in path');
           resolve({ success: false, error: 'Ollama not found in PATH' });
           return;
         }
-
-        const child = spawn('ollama', ['serve'], {
-          detached: true,
-          stdio: 'ignore'
-        });
+        const child = spawn('ollama', ['serve'], { detached: true, stdio: 'ignore' });
         child.unref();
         resolve({ success: true });
       });
@@ -150,22 +137,17 @@ ipcMain.handle('open-external', async (_event, url) => {
   shell.openExternal(url);
 });
 
-const https = require('https');
-
 ipcMain.handle('web-search', async (_event, query) => {
   return new Promise((resolve) => {
     const url = `https://html.duckduckgo.com/html/?q=${encodeURIComponent(query)}`;
     const req = https.get(url, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-      }
+      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' }
     }, (res) => {
       let data = '';
       res.on('data', chunk => data += chunk);
       res.on('end', () => {
         try {
           const results = [];
-          // Simple regex to extract DuckDuckGo HTML results
           const resultRegex = /<a class="result__url" href="([^"]+)".*?>.*?<\/a>.*?<a class="result__snippet[^>]+>(.*?)<\/a>/gs;
           let match;
           while ((match = resultRegex.exec(data)) !== null && results.length < 5) {
@@ -173,21 +155,15 @@ ipcMain.handle('web-search', async (_event, query) => {
             if (url.startsWith('//duckduckgo.com/l/?uddg=')) {
               try { url = decodeURIComponent(url.split('uddg=')[1].split('&')[0]); } catch (e) {}
             }
-            // Strip HTML from snippet
             const snippet = match[2].replace(/<[^>]+>/g, '').trim();
             results.push({ url, snippet });
           }
           resolve(results);
-        } catch (e) {
-          resolve([]);
-        }
+        } catch (e) { resolve([]); }
       });
     });
     req.on('error', () => resolve([]));
-    req.setTimeout(5000, () => {
-      req.destroy();
-      resolve([]);
-    });
+    req.setTimeout(5000, () => { req.destroy(); resolve([]); });
   });
 });
 
@@ -196,46 +172,35 @@ ipcMain.handle('fetch-url', async (_event, url) => {
     const parsedUrl = new URL(url);
     const client = parsedUrl.protocol === 'https:' ? https : http;
     const req = client.get(url, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-      }
+      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' }
     }, (res) => {
       let data = '';
       res.on('data', chunk => data += chunk);
       res.on('end', () => {
-        // Very basic HTML to text stripping
         let text = data
           .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
           .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
           .replace(/<[^>]+>/g, ' ')
           .replace(/\s+/g, ' ')
           .trim();
-        // Return max 5000 chars to avoid overloading the AI
         resolve(text.substring(0, 5000));
       });
     });
     req.on('error', (err) => resolve(`Error: ${err.message}`));
-    req.setTimeout(8000, () => {
-      req.destroy();
-      resolve('Error: Timeout');
-    });
+    req.setTimeout(8000, () => { req.destroy(); resolve('Error: Timeout'); });
   });
 });
 
 ipcMain.handle('check-for-updates', async () => {
-  return await autoUpdater.checkForUpdates();
+  return await checkNewVersion();
 });
-
 
 // ---------- window ----------
 let mainWindow;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 1200,
-    height: 800,
-    minWidth: 800,
-    minHeight: 600,
+    width: 1200, height: 800, minWidth: 800, minHeight: 600,
     backgroundColor: '#0f0f14',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -243,8 +208,6 @@ function createWindow() {
       nodeIntegration: false
     }
   });
-
-  // mainWindow.setMenuBarVisibility(false); // Global Menu.setApplicationMenu(null) handles this
 
   if (!app.isPackaged && process.env.VITE_DEV_SERVER_URL) {
     mainWindow.loadURL(process.env.VITE_DEV_SERVER_URL);
@@ -254,20 +217,15 @@ function createWindow() {
     mainWindow.loadURL('app://-/index.html');
   }
 
-  // Handle window.open for the Terminal
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
     if (url.includes('terminal=true')) {
       return {
         action: 'allow',
         overrideBrowserWindowOptions: {
-          width: 800,
-          height: 600,
-          backgroundColor: '#000',
-          autoHideMenuBar: true,
+          width: 800, height: 600, backgroundColor: '#000', autoHideMenuBar: true,
           webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
-            contextIsolation: true,
-            nodeIntegration: false
+            contextIsolation: true, nodeIntegration: false
           }
         }
       };
@@ -294,9 +252,6 @@ app.whenReady().then(() => {
   Menu.setApplicationMenu(null);
   createWindow();
   
-  // Check for updates
-  autoUpdater.checkForUpdatesAndNotify();
-
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
