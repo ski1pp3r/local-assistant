@@ -107,6 +107,9 @@ export default function App() {
     }
   }, [models, selectedModel]);
 
+  const activeThread = activeId ? threads[activeId] : null;
+  const activeMessages = activeThread?.messages || [];
+
   // ── Auto-scroll ──
   const lastMsgCount = useRef(0);
   useEffect(() => {
@@ -130,9 +133,6 @@ export default function App() {
     const el = textareaRef.current;
     if (el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 160) + 'px'; }
   }, [input]);
-
-  const activeThread = activeId ? threads[activeId] : null;
-  const activeMessages = activeThread?.messages || [];
 
   const handleSendMessage = () => {
     sendMessage(input, activeId, setActiveId, setInput);
