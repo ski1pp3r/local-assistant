@@ -97,6 +97,7 @@ npm run dist
 - This command builds the frontend, and then uses `electron-builder` to package the entire application.
 - A `Setup.exe` file will appear in the `release/` directory.
 - End users should execute this `Setup.exe` to install the software on their computers. It will create a Start Menu entry and a Desktop shortcut, behaving like normal desktop software.
+- By default, the application is installed to: `C:\Users\<yourname>\AppData\Local\Programs\OFFGRID\`
 
 > [!IMPORTANT]
 > End users should always use the installer. Development mode is only for contributing to the source code.
