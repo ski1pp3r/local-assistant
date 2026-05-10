@@ -87,20 +87,22 @@ This compiles the Vite React application into the `dist/` directory.
 
 ## Windows Installer (.exe)
 
-To generate the final, distributable installer, run:
+> [!NOTE]
+> The official Windows Installer (.exe) is currently **in development**. For now, please use the manual startup or create a desktop shortcut as described below.
 
-```bash
-npm run dist
-```
+## Quick Start Shortcut
 
-**How it works:**
-- This command builds the frontend, and then uses `electron-builder` to package the entire application.
-- A `Setup.exe` file will appear in the `release/` directory.
-- End users should execute this `Setup.exe` to install the software on their computers. It will create a Start Menu entry and a Desktop shortcut, behaving like normal desktop software.
-- By default, the application is installed to: `C:\Users\<yourname>\AppData\Local\Programs\OFFGRID\`
+To start OFFGRID and Ollama with a single click, you can create a Windows shortcut:
 
-> [!IMPORTANT]
-> End users should always use the installer. Development mode is only for contributing to the source code.
+1. Right-click on your desktop and select **New > Shortcut**.
+2. For the location of the item, enter the following (adjust the path to your folder if necessary):
+   ```cmd
+   C:\WINDOWS\system32\cmd.exe /c start "" ollama serve & timeout /t 5 /nobreak >nul & cd /d "C:\Users\jonat\.gemini\antigravity\scratch\ai-chat" & npm run dev
+   ```
+3. Name the shortcut **OFFGRID**.
+4. (Optional) Change the icon in the shortcut properties.
+
+Alternatively, you can use the `Start-OFFGRID.bat` file provided in the root directory.
 
 ### Stay Up to Date
 
@@ -118,12 +120,11 @@ npm run update
 ```
 *This command performs a `git pull`, updates dependencies, and rebuilds the production assets.*
 
-#### 2. Rebuild the Installer/Binary
-After updating the source, if you want a fresh `.exe` or installer, run:
+#### 2. Rebuild the App
+After updating the source, rebuild the production assets to ensure you are running the latest version:
 ```bash
-npm run dist
+npm run build
 ```
-The new files will be generated in the `release/` directory.
 
 #### 3. Where is my Data?
 Your chats, settings, and personalities are stored in a folder named `data/`.

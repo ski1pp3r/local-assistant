@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "concurrently \"vite\" \"wait-on http://localhost:5173 && electron .\"",
     "build": "vite build",
-    "dist": "vite build && electron-builder --win",
     "start": "electron .",
     "update": "git pull && npm install && npm run build"
   },
