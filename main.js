@@ -11,11 +11,23 @@ protocol.registerSchemesAsPrivileged([
 ]);
 
 // ---------- Manual Version Check ----------
+function compareVersions(a, b) {
+  const pa = a.split('.').map(Number);
+  const pb = b.split('.').map(Number);
+  for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
+    const na = pa[i] || 0;
+    const nb = pb[i] || 0;
+    if (na > nb) return 1;
+    if (na < nb) return -1;
+  }
+  return 0;
+}
+
 async function checkNewVersion() {
   return new Promise((resolve) => {
     const options = {
       hostname: 'api.github.com',
-      path: '/repos/ski1pp3r/local-assistant/releases/latest',
+      path: '/repos/ski1pp3r/local-assistant/tags',
       headers: { 'User-Agent': 'OFFGRID-App' }
     };
 
@@ -24,16 +36,22 @@ async function checkNewVersion() {
       res.on('data', (chunk) => data += chunk);
       res.on('end', () => {
         try {
-          if (res.statusCode !== 200) return resolve({ error: 'GitHub API error' });
-          const release = JSON.parse(data);
-          const latestVersion = release.tag_name.replace('v', '');
+          if (res.statusCode !== 200) return resolve({ error: `GitHub API error (${res.statusCode})` });
+          const tags = JSON.parse(data);
+          if (!tags.length) return resolve({ error: 'No tags found' });
+
+          // Sort tags by semver descending and pick the latest
+          const sorted = tags
+            .map(t => t.name.replace(/^v/, ''))
+            .sort((a, b) => compareVersions(b, a));
+          const latestVersion = sorted[0];
           const currentVersion = app.getVersion();
-          
+
           resolve({
             current: currentVersion,
             latest: latestVersion,
-            isNewer: latestVersion !== currentVersion,
-            url: release.html_url
+            isNewer: compareVersions(latestVersion, currentVersion) > 0,
+            url: `https://github.com/ski1pp3r/local-assistant/releases/tag/v${latestVersion}`
           });
         } catch (e) {
           resolve({ error: e.message });
