@@ -10,7 +10,6 @@ export default function ProcessMonitor({ standalone = false, onClose }) {
   const [pos, setPos] = useState({ x: window.innerWidth - 420, y: 60 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-  
   const scrollRef = useRef(null);
 
   useEffect(() => {
