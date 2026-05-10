@@ -2,7 +2,7 @@
 
 **Your AI. Your machine. No cloud.**
 
-OFFGRID is a local-first AI chat terminal built with Electron and React. It connects to Ollama for 100% private LLM inference, runs Whisper locally for speech-to-text, and features neural memory that automatically remembers facts about you.
+OFFGRID is a local-first AI chat terminal built with Electron and React. It connects to Ollama for 100% private LLM inference, runs Whisper directly in your browser for speech-to-text, and features neural memory that automatically remembers facts about you.
 
 ---
 
