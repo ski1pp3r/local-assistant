@@ -102,14 +102,10 @@ npm run dist
 > [!IMPORTANT]
 > End users should always use the installer. Development mode is only for contributing to the source code.
 
-## Updates
+### Stay Up to Date
 
-OFFGRID is designed for privacy and transparency. Since many users build the application from source, updates are handled through a manual check and terminal command:
+OFFGRID is designed for privacy and transparency. To stay informed about new features and improvements, please check the [GitHub Releases](https://github.com/ski1pp3r/local-assistant/releases) regularly.
 
-### Check for Updates (UI)
-- Open the settings panel in the application.
-- Click on **"Check for Updates"**.
-- If a newer version is found on GitHub, the app will notify you and provide a link to the latest release.
 
 ### Updating & Data Safety
 

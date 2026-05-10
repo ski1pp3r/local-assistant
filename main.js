@@ -10,56 +10,7 @@ protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true, supportFetchAPI: true } }
 ]);
 
-// ---------- Manual Version Check ----------
-function compareVersions(a, b) {
-  const pa = a.split('.').map(Number);
-  const pb = b.split('.').map(Number);
-  for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
-    const na = pa[i] || 0;
-    const nb = pb[i] || 0;
-    if (na > nb) return 1;
-    if (na < nb) return -1;
-  }
-  return 0;
-}
 
-async function checkNewVersion() {
-  return new Promise((resolve) => {
-    const options = {
-      hostname: 'api.github.com',
-      path: '/repos/ski1pp3r/local-assistant/tags',
-      headers: { 'User-Agent': 'OFFGRID-App' }
-    };
-
-    https.get(options, (res) => {
-      let data = '';
-      res.on('data', (chunk) => data += chunk);
-      res.on('end', () => {
-        try {
-          if (res.statusCode !== 200) return resolve({ error: `GitHub API error (${res.statusCode})` });
-          const tags = JSON.parse(data);
-          if (!tags.length) return resolve({ error: 'No tags found' });
-
-          // Sort tags by semver descending and pick the latest
-          const sorted = tags
-            .map(t => t.name.replace(/^v/, ''))
-            .sort((a, b) => compareVersions(b, a));
-          const latestVersion = sorted[0];
-          const currentVersion = app.getVersion();
-
-          resolve({
-            current: currentVersion,
-            latest: latestVersion,
-            isNewer: compareVersions(latestVersion, currentVersion) > 0,
-            url: `https://github.com/ski1pp3r/local-assistant/releases/tag/v${latestVersion}`
-          });
-        } catch (e) {
-          resolve({ error: e.message });
-        }
-      });
-    }).on('error', (e) => resolve({ error: e.message }));
-  });
-}
 
 // ---------- portable data path ----------
 function getDataPath() {
@@ -209,9 +160,7 @@ ipcMain.handle('fetch-url', async (_event, url) => {
   });
 });
 
-ipcMain.handle('check-for-updates', async () => {
-  return await checkNewVersion();
-});
+
 
 // ---------- window ----------
 let mainWindow;

@@ -18,8 +18,7 @@ export default function SettingsPanel({ onClose, onSettingsChanged, onClearThrea
   const [newModelName, setNewModelName] = useState('');
   const [pulling, setPulling] = useState(false);
   const [pullStatus, setPullStatus] = useState(null); 
-  const [updateStatus, setUpdateStatus] = useState('idle'); // idle, checking, available, up-to-date, error
-  const [updateInfo, setUpdateInfo] = useState(null);
+
 
   useEffect(() => {
     (async () => {
@@ -34,28 +33,7 @@ export default function SettingsPanel({ onClose, onSettingsChanged, onClearThrea
     })();
   }, []);
 
-  const handleCheckUpdates = async () => {
-    if (!window.electronAPI) return;
-    setUpdateStatus('checking');
-    try {
-      const res = await window.electronAPI.checkForUpdates();
-      if (res.error) {
-        setUpdateStatus('error');
-      } else {
-        setUpdateInfo(res);
-        setUpdateStatus(res.isNewer ? 'available' : 'up-to-date');
-      }
-    } catch (e) {
-      setUpdateStatus('error');
-      console.error('Update check error:', e);
-    }
-  };
 
-  const handleOpenRelease = () => {
-    if (updateInfo?.url) {
-      window.electronAPI.openExternal(updateInfo.url);
-    }
-  };
 
   const handlePuterLogin = async () => {
     if (!window.puter) return;
@@ -300,48 +278,7 @@ export default function SettingsPanel({ onClose, onSettingsChanged, onClearThrea
 
         <hr className="divider" />
 
-        <div className="update-section">
-          <label style={{ fontSize: '8px' }}>SYSTEM UPDATE</label>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 6, background: 'rgba(255,255,255,0.02)', padding: '8px 12px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.05)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <div style={{ fontSize: '11px', color: '#777', fontFamily: "'Fira Code', monospace" }}>
-                {updateStatus === 'idle' && "Check current source version."}
-                {updateStatus === 'checking' && t('checking_updates')}
-                {updateStatus === 'available' && (
-                  <span style={{ color: '#00ff00' }}>
-                    {t('update_available')} (v{updateInfo?.latest})
-                  </span>
-                )}
-                {updateStatus === 'up-to-date' && t('update_not_available')}
-                {updateStatus === 'error' && t('update_error')}
-              </div>
-              <div style={{ display: 'flex', gap: 6 }}>
-                {updateStatus === 'available' && (
-                  <button 
-                    className="btn-primary" 
-                    style={{ padding: '4px 8px', fontSize: '10px', background: '#00ff00', color: '#000' }} 
-                    onClick={handleOpenRelease}
-                  >
-                    GET_LATEST
-                  </button>
-                )}
-                <button 
-                  className="btn-primary" 
-                  style={{ padding: '4px 8px', fontSize: '10px' }} 
-                  onClick={handleCheckUpdates}
-                  disabled={updateStatus === 'checking'}
-                >
-                  {t('check_updates')}
-                </button>
-              </div>
-            </div>
-            {updateStatus === 'available' && (
-              <div style={{ fontSize: '9px', color: '#666', fontStyle: 'italic' }}>
-                * New code available on GitHub. Please pull and rebuild your EXE.
-              </div>
-            )}
-          </div>
-        </div>
+
 
         <div className="puter-account-section" style={{ marginTop: 12 }}>
           <label style={{ fontSize: '8px' }}>{t('puter_login_label')}</label>
