@@ -37,7 +37,7 @@ A floating terminal window shows every API call, transcription event, memory upd
 ### Voice Interaction (STT & TTS)
 **Speech-to-Text (STT):** Dictate your messages easily. The application uses a local transcription model (running directly in your browser) to guarantee your privacy. It dynamically switches transcription logic depending on your selected language (German or English).
 
-**Text-to-Speech (TTS):** The AI can read its answers out loud using Puter AI. 
+**Text-to-Speech (TTS):** The AI can read its answers out loud using Puter.js. 
 > [!WARNING]  
 > Please note that the TTS feature currently only works reliably in **English**. We are working hard to ensure that German and other languages work flawlessly in upcoming updates!
 
