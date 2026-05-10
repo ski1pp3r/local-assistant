@@ -123,6 +123,16 @@ npm run update
 ```
 *This command performs a `git pull`, updates dependencies, and rebuilds the production assets.*
 
+#### Troubleshooting: Update Conflicts
+If you see an error like `Your local changes to the following files would be overwritten by merge`, it means you have modified files locally that conflict with the update. To force the update and overwrite local changes (recommended if you want the latest official version), run:
+```bash
+git fetch --all
+git reset --hard origin/main
+npm run update
+```
+> [!CAUTION]
+> `git reset --hard` will discard all local changes to tracked files (like `package.json` or `src/`). Your `data/` folder is safe as it is ignored by Git.
+
 #### 2. Rebuild the App
 After updating the source, rebuild the production assets to ensure you are running the latest version:
 ```bash
