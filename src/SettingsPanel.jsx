@@ -229,11 +229,11 @@ export default function SettingsPanel({ onClose, onSettingsChanged, onClearThrea
         <div className="checkbox-row">
           <input
             type="checkbox"
-            id="browser_access"
-            checked={settings.browser_access || false}
-            onChange={e => setSettings({ ...settings, browser_access: e.target.checked })}
+            id="Browser_Access"
+            checked={settings.Browser_Access || false}
+            onChange={e => setSettings({ ...settings, Browser_Access: e.target.checked })}
           />
-          <label htmlFor="browser_access">{t('browser_access') || 'Browser-Zugriff für KI aktivieren'}</label>
+          <label htmlFor="Browser_Access">{t('Browser_Access') || 'Browser-Zugriff für KI aktivieren'}</label>
         </div>
 
         <div className="btn-row" style={{ marginTop: 8 }}>

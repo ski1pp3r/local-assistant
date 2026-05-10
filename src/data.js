@@ -56,7 +56,7 @@ export async function loadSettings() {
     local_tts: false,
     ui_language: 'de',
     auto_tts: false,
-    browser_access: false
+    Browser_Access: false
   };
 }
 export async function saveSettings(s) {
@@ -134,7 +134,7 @@ export function buildSystemPrompt(personality, settings) {
     ? `You are a personal assistant. Information about the user: ${personality.nutzer_info}. Behave like this: ${personality.verhalten}\n\nIMPORTANT: You MUST communicate entirely in English!`
     : `Du bist ein persönlicher Assistent. Informationen über den Nutzer: ${personality.nutzer_info}. Verhalte dich so: ${personality.verhalten}\n\nWICHTIG: Du MUSST komplett auf Deutsch kommunizieren!`;
   
-  if (settings?.browser_access) {
+  if (settings?.Browser_Access) {
     if (isEn) {
       prompt += `\n\nYou have access to the internet. Before answering a factual or knowledge-based user question, you MUST ALWAYS search the internet for the most up-to-date information first!
 In your first step, respond EXCLUSIVELY with: <SEARCH>your search term</SEARCH> (e.g., <SEARCH>News today</SEARCH>). The system will execute the search and provide you with the results.

@@ -1,9 +1,14 @@
-const { app, BrowserWindow, ipcMain, shell, Menu, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, shell, Menu, dialog, protocol, net } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const { spawn, exec } = require('child_process');
 const http = require('http');
+const { pathToFileURL } = require('url');
 const { autoUpdater } = require('electron-updater');
+
+protocol.registerSchemesAsPrivileged([
+  { scheme: 'app', privileges: { secure: true, standard: true, supportFetchAPI: true } }
+]);
 
 // ---------- Auto Updater ----------
 autoUpdater.autoDownload = true;
@@ -217,7 +222,7 @@ function createWindow() {
   } else if (!app.isPackaged) {
     mainWindow.loadURL('http://localhost:5173');
   } else {
-    mainWindow.loadFile(path.join(__dirname, 'dist', 'index.html'));
+    mainWindow.loadURL('app://-/index.html');
   }
 
   // Handle window.open for the Terminal
@@ -243,6 +248,15 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
+  protocol.handle('app', (request) => {
+    const requestUrl = new URL(request.url);
+    let filePath = path.join(__dirname, 'dist', decodeURIComponent(requestUrl.pathname));
+    if (!fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
+      filePath = path.join(__dirname, 'dist', 'index.html');
+    }
+    return net.fetch(pathToFileURL(filePath).toString());
+  });
+
   ensureDataDir();
   Menu.setApplicationMenu(null);
   createWindow();

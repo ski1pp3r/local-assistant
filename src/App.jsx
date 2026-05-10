@@ -408,7 +408,7 @@ export default function App() {
       await saveThreads(current);
       
       // ── Browser Tool Interception ──
-      if (settings?.browser_access && !abortRef.current?.signal?.aborted) {
+      if (settings?.Browser_Access && !abortRef.current?.signal?.aborted) {
         const finalContent = assistantMsg.content;
         const searchMatch = finalContent.match(/<SEARCH>(.*?)<\/SEARCH>/);
         const fetchMatch = finalContent.match(/<FETCH>(.*?)<\/FETCH>/);
