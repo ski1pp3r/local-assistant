@@ -1,6 +1,6 @@
 {
   "name": "offgrid",
-  "version": "1.0.3",
+  "version": "1.0.1",
   "description": "OFFGRID: Your AI. Your machine. No cloud.",
   "main": "main.js",
   "scripts": {

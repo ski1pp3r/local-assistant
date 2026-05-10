@@ -51,10 +51,10 @@ export const translations = {
     puter_logged_in_as: "Angemeldet als:",
     check_updates: "Nach Updates suchen",
     checking_updates: "Suche nach Updates...",
-    update_available: "Update verfügbar! Wird heruntergeladen...",
+    update_available: "Update verfügbar!",
     update_not_available: "App ist auf dem neuesten Stand.",
     update_error: "Fehler beim Update-Check.",
-    update_downloaded: "Update bereit. Neustarten zum Installieren.",
+    update_downloaded: "Update bereit zum Installieren.",
   },
   en: {
     sidebar_header: "[ SYSTEM.INTERFACE ]",

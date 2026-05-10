@@ -118,6 +118,9 @@ If you have cloned the repository and built the app yourself, you can update to 
 npm run update
 ```
 
+> [!IMPORTANT]
+> This command **must** be run inside your development folder (where the `package.json` file is). It will not work inside the installed application directory in `AppData`.
+
 **What this command does:**
 1. Pulls the latest source code from GitHub (`git pull`).
 2. Installs any new dependencies (`npm install`).
