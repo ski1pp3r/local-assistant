@@ -113,13 +113,9 @@ OFFGRID is designed for privacy and transparency. Since many users build the app
 
 ### Updating Binary Releases
 
-If you are using the pre-compiled `.exe` versions:
+If you are using the pre-compiled `.exe` installer:
 
-#### 1. Portable Version (`OFFGRID-Portable.exe`)
-To update, simply download the latest `OFFGRID-Portable.exe` and replace the old one. 
-- **Important:** Keep the `data` folder in the same directory as the executable. This folder contains all your chats, settings, and personalities.
-
-#### 2. Windows Installer (`OFFGRID-Setup.exe`)
+#### Windows Installer (`OFFGRID-Setup.exe`)
 Run the new installer. It will automatically overwrite the previous installation.
 - **Tip:** Your data is stored in a `data` folder within the installation directory. To be safe, you can back up this folder before running a new installer.
 
