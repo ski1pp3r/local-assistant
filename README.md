@@ -57,6 +57,13 @@ To work on the source code, you'll need [Node.js](https://nodejs.org/) installed
    npm install
    ```
 
+> [!NOTE]
+> After cloning the repository and running `npm install`, you may encounter several security warnings (vulnerabilities). These can usually be resolved automatically by running:
+> ```bash
+> npm audit fix --force
+> ```
+> This command updates affected dependencies and fixes known vulnerabilities through forced updates.
+
 ## Development Setup
 
 To start the application in developer mode, run:
