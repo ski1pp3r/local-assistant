@@ -111,34 +111,31 @@ OFFGRID is designed for privacy and transparency. Since many users build the app
 - Click on **"Check for Updates"**.
 - If a newer version is found on GitHub, the app will notify you and provide a link to the latest release.
 
-### Updating Binary Releases
+### Updating & Data Safety
 
-If you are using the pre-compiled `.exe` installer:
+Since OFFGRID is designed for transparency, most users build their own versions from source. Here is how to update and keep your data safe:
 
-#### Windows Installer (`OFFGRID-Setup.exe`)
-Run the new installer. It will automatically overwrite the previous installation.
-- **Tip:** Your data is stored in a `data` folder within the installation directory. To be safe, you can back up this folder before running a new installer.
-
----
-
-### Update via Terminal (Source Code)
-
-If you have cloned the repository and built the app yourself, you can update to the latest version with a single command:
-
+#### 1. Update the Source Code
+If you have cloned the repository, you can update to the latest version and rebuild the frontend with one command:
 ```bash
 npm run update
 ```
+*This command performs a `git pull`, updates dependencies, and rebuilds the production assets.*
+
+#### 2. Rebuild the Installer/Binary
+After updating the source, if you want a fresh `.exe` or installer, run:
+```bash
+npm run dist
+```
+The new files will be generated in the `release/` directory.
+
+#### 3. Where is my Data?
+Your chats, settings, and personalities are stored in a folder named `data/`.
+- **Development Mode:** The `data/` folder is in your project root.
+- **Packaged App (`.exe`):** The `data/` folder is created in the same directory as the executable.
 
 > [!IMPORTANT]
-> This command **must** be run inside your development folder (where the `package.json` file is).
-
-**What this command does:**
-1. Pulls the latest source code from GitHub (`git pull`).
-2. Installs any new dependencies (`npm install`).
-3. Rebuilds the application assets (`npm run build`).
-
-> [!TIP]
-> Always keep a backup of your `data` folder if you want to ensure your local chat history is never lost during major system changes or updates.
+> When updating your installed version, always ensure you have a backup of the `data/` folder. While the installer usually preserves subdirectories, a manual backup is the only way to guarantee your local AI history is 100% safe.
 
 
 
