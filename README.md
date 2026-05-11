@@ -114,7 +114,7 @@ Alternatively, you can use the `Start-OFFGRID.bat` file provided in the root dir
 
 ### Stay Up to Date
 
-OFFGRID is designed for privacy and transparency. To stay informed about new features and improvements, please check the for updates regularly.
+OFFGRID is designed for privacy and transparency. To stay informed about new features and improvements, please check for updates regularly.
 
 
 ### Updating & Data Safety
