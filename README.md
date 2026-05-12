@@ -219,7 +219,7 @@ I am building an AI-controlled local file access system to allow the assistant t
 
 ### Wake Word Activation (Hands-Free Mode)
 I am building a specialized tool to enable wake word activation (e.g., "Hey OffGrid"). This will allow for a truly hands-free AI chatbot experience, where the assistant starts listening automatically upon hearing the trigger phrase.
-- **Status**: Researching low-latency local wake word engines.
+- *Status: Researching low-latency local wake word engines.*
 
 
 
