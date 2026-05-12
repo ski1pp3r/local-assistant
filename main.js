@@ -5,7 +5,7 @@ const { spawn, exec } = require('child_process');
 const http = require('http');
 const https = require('https');
 const { pathToFileURL } = require('url');
-const { SocksProxyAgent } = require('socks-proxy-agent');
+
 
 
 protocol.registerSchemesAsPrivileged([
@@ -130,6 +130,7 @@ ipcMain.handle('web-search', async (_event, query) => {
     };
 
     if (useProxy) {
+      const { SocksProxyAgent } = await import('socks-proxy-agent');
       options.agent = new SocksProxyAgent('socks5://10.64.0.1:1080');
     }
 
@@ -171,6 +172,7 @@ ipcMain.handle('fetch-url', async (_event, url) => {
     };
 
     if (useProxy) {
+      const { SocksProxyAgent } = await import('socks-proxy-agent');
       options.agent = new SocksProxyAgent('socks5://10.64.0.1:1080');
     }
 
