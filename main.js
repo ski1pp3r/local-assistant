@@ -120,18 +120,23 @@ ipcMain.handle('open-external', async (_event, url) => {
 });
 
 ipcMain.handle('web-search', async (_event, query) => {
+  const settings = getSettings();
+  const useProxy = settings.mullvad_proxy_enabled;
+  let agent;
+  if (useProxy) {
+    const { SocksProxyAgent } = await import('socks-proxy-agent');
+    agent = new SocksProxyAgent('socks5://10.64.0.1:1080');
+  }
+
   return new Promise((resolve) => {
-    const settings = getSettings();
-    const useProxy = settings.mullvad_proxy_enabled;
     const url = `https://html.duckduckgo.com/html/?q=${encodeURIComponent(query)}`;
     
     const options = {
       headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' }
     };
 
-    if (useProxy) {
-      const { SocksProxyAgent } = await import('socks-proxy-agent');
-      options.agent = new SocksProxyAgent('socks5://10.64.0.1:1080');
+    if (agent) {
+      options.agent = agent;
     }
 
     const req = https.get(url, options, (res) => {
@@ -161,9 +166,15 @@ ipcMain.handle('web-search', async (_event, query) => {
 });
 
 ipcMain.handle('fetch-url', async (_event, url) => {
+  const settings = getSettings();
+  const useProxy = settings.mullvad_proxy_enabled;
+  let agent;
+  if (useProxy) {
+    const { SocksProxyAgent } = await import('socks-proxy-agent');
+    agent = new SocksProxyAgent('socks5://10.64.0.1:1080');
+  }
+
   return new Promise((resolve) => {
-    const settings = getSettings();
-    const useProxy = settings.mullvad_proxy_enabled;
     const parsedUrl = new URL(url);
     const client = parsedUrl.protocol === 'https:' ? https : http;
     
@@ -171,9 +182,8 @@ ipcMain.handle('fetch-url', async (_event, url) => {
       headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' }
     };
 
-    if (useProxy) {
-      const { SocksProxyAgent } = await import('socks-proxy-agent');
-      options.agent = new SocksProxyAgent('socks5://10.64.0.1:1080');
+    if (agent) {
+      options.agent = agent;
     }
 
     const req = client.get(url, options, (res) => {
