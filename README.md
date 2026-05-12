@@ -46,7 +46,11 @@ To enhance privacy, you can route the AI's web searches and URL fetches through 
 
 > [!TIP]
 > **Why use this if I already have the Mullvad app running?**  
-> While a system-wide VPN protects your entire PC, enabling the SOCKS5 proxy inside OFFGRID provides an extra layer of security. It ensures that the app's web traffic *only* exits through Mullvad nodes and prevents potential leaks. It also enables the live protection status indicator in your settings.
+> Using the internal SOCKS5 proxy inside a VPN tunnel is considered the **"Gold Standard"** for privacy. It creates a "Tunnel within a Tunnel" effect, providing:
+> - **Double Protection**: An extra layer of anonymity within the Mullvad network.
+> - **Leak Prevention**: Ensures app traffic never bypasses the VPN tunnel.
+> - **Live Verification**: Enables the app to actively monitor and confirm your protection status.
+
 
 
 
