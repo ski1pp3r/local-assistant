@@ -222,10 +222,6 @@ I am building a specialized tool to enable wake word activation (e.g., "Hey OffG
 - **Status**: Researching low-latency local wake word engines.
 
 
-### Mullvad VPN Integration
-Route application-specific traffic (Web Search, URL Fetch) through Mullvad SOCKS5 proxies for maximum anonymity.
-- *Status: Implemented. Configurable in Settings.*
-
 
 ## Feedback & Contributions
 
