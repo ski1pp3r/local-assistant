@@ -16,6 +16,7 @@
     "react-markdown": "^9.0.1",
     "react-syntax-highlighter": "^15.6.1",
     "remark-gfm": "^4.0.0",
+    "socks-proxy-agent": "^10.0.0",
     "systeminformation": "^5.31.6"
   },
   "devDependencies": {

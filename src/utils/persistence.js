@@ -53,7 +53,8 @@ export async function loadSettings() {
     local_tts: false,
     ui_language: 'de',
     auto_tts: false,
-    Browser_Access: false
+    Browser_Access: false,
+    mullvad_proxy_enabled: false
   };
 }
 export async function saveSettings(s) {

@@ -8,6 +8,8 @@ import {
   fetchModels, pullModel, deleteModel 
 } from '../../services/ollama';
 import { translations } from '../../utils/translations';
+import MullvadStatus from './MullvadStatus';
+
 
 export default function SettingsPanel({ onClose, onSettingsChanged, onClearThreads, puterUser, setPuterUser }) {
   const [settings, setSettings] = useState(null);
@@ -261,6 +263,26 @@ export default function SettingsPanel({ onClose, onSettingsChanged, onClearThrea
           />
           <label htmlFor="Browser_Access">{t('Browser_Access') || 'Browser-Zugriff für KI aktivieren'}</label>
         </div>
+
+        <hr className="divider" />
+
+        <label style={{ fontSize: '10px', color: '#666', textTransform: 'uppercase', letterSpacing: '1px' }}>Network & Privacy</label>
+        <div className="checkbox-row" style={{ marginTop: '8px' }}>
+          <input
+            type="checkbox"
+            id="mullvad_proxy_enabled"
+            checked={settings.mullvad_proxy_enabled || false}
+            onChange={e => setSettings({ ...settings, mullvad_proxy_enabled: e.target.checked })}
+          />
+          <label htmlFor="mullvad_proxy_enabled">Mullvad SOCKS5 Proxy</label>
+        </div>
+        <p style={{ fontSize: '11px', color: '#666', margin: '4px 0 0 24px', lineHeight: '1.4' }}>
+          Routes web searches and URL fetches through Mullvad's local SOCKS5 proxy (10.64.0.1:1080).
+        </p>
+        <div style={{ marginLeft: '24px' }}>
+          <MullvadStatus enabled={settings.mullvad_proxy_enabled} />
+        </div>
+
 
         <div className="btn-row" style={{ marginTop: 8 }}>
           <button className="btn-primary" onClick={handleSaveSettings}>

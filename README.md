@@ -41,6 +41,10 @@ A floating terminal window shows every API call, transcription event, memory upd
 > [!WARNING]  
 > Please note that the TTS feature currently only works reliably in **English**. I am working hard to ensure that German and other languages work flawlessly in upcoming updates!
 
+### Mullvad VPN Integration (SOCKS5)
+To enhance privacy, you can route the AI's web searches and URL fetches through a Mullvad VPN SOCKS5 proxy. This anonymizes the AI's external footprint without affecting the rest of your system. See [Mullvad Integration](docs/mullvad-integration.md) for details.
+
+
 ---
 
 ## Installation
@@ -204,12 +208,10 @@ I am building an AI-controlled local file access system to allow the assistant t
 - **Security**: All file access will require explicit user visibility and permission. The AI will generate requests that the main application intercepts and asks the user to approve.
 - *Status: Experimental. Security-focused implementation planned.*
 
-### Mullvad VPN Integration (In Development)
-To enhance privacy during remote communication and web search functionalities, I am exploring Mullvad VPN integration.
+### Mullvad VPN Integration
+Route application-specific traffic (Web Search, URL Fetch) through Mullvad SOCKS5 proxies for maximum anonymity.
+- *Status: Implemented. Configurable in Settings.*
 
-- **Purpose**: Route specific application traffic (like automated browser searches or the Telegram bridge traffic) through encrypted VPN tunnels via local SOCKS5 proxies.
-- Ensures the AI's external footprint is anonymized.
-- *Status: Experimental. Not production-ready. Architecture may change.*
 
 ## Feedback & Contributions
 

@@ -5,6 +5,8 @@ const { spawn, exec } = require('child_process');
 const http = require('http');
 const https = require('https');
 const { pathToFileURL } = require('url');
+const { SocksProxyAgent } = require('socks-proxy-agent');
+
 
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true, supportFetchAPI: true } }
@@ -46,6 +48,17 @@ function ensureDataDir() {
     if (!fs.existsSync(fp)) fs.writeFileSync(fp, content, 'utf-8');
   }
 }
+
+function getSettings() {
+  try {
+    const fp = path.join(getDataPath(), 'settings.json');
+    if (!fs.existsSync(fp)) return {};
+    return JSON.parse(fs.readFileSync(fp, 'utf-8'));
+  } catch (e) {
+    return {};
+  }
+}
+
 
 // ---------- IPC handlers ----------
 ipcMain.handle('read-file', async (_event, fileName) => {
@@ -108,10 +121,20 @@ ipcMain.handle('open-external', async (_event, url) => {
 
 ipcMain.handle('web-search', async (_event, query) => {
   return new Promise((resolve) => {
+    const settings = getSettings();
+    const useProxy = settings.mullvad_proxy_enabled;
     const url = `https://html.duckduckgo.com/html/?q=${encodeURIComponent(query)}`;
-    const req = https.get(url, {
+    
+    const options = {
       headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' }
-    }, (res) => {
+    };
+
+    if (useProxy) {
+      options.agent = new SocksProxyAgent('socks5://10.64.0.1:1080');
+    }
+
+    const req = https.get(url, options, (res) => {
+
       let data = '';
       res.on('data', chunk => data += chunk);
       res.on('end', () => {
@@ -138,11 +161,21 @@ ipcMain.handle('web-search', async (_event, query) => {
 
 ipcMain.handle('fetch-url', async (_event, url) => {
   return new Promise((resolve) => {
+    const settings = getSettings();
+    const useProxy = settings.mullvad_proxy_enabled;
     const parsedUrl = new URL(url);
     const client = parsedUrl.protocol === 'https:' ? https : http;
-    const req = client.get(url, {
+    
+    const options = {
       headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' }
-    }, (res) => {
+    };
+
+    if (useProxy) {
+      options.agent = new SocksProxyAgent('socks5://10.64.0.1:1080');
+    }
+
+    const req = client.get(url, options, (res) => {
+
       let data = '';
       res.on('data', chunk => data += chunk);
       res.on('end', () => {
