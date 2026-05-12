@@ -217,6 +217,11 @@ I am building an AI-controlled local file access system to allow the assistant t
 - **Security**: All file access will require explicit user visibility and permission. The AI will generate requests that the main application intercepts and asks the user to approve.
 - *Status: Experimental. Security-focused implementation planned.*
 
+### Wake Word Activation (Hands-Free Mode)
+I am building a specialized tool to enable wake word activation (e.g., "Hey OffGrid"). This will allow for a truly hands-free AI chatbot experience, where the assistant starts listening automatically upon hearing the trigger phrase.
+- **Status**: Researching low-latency local wake word engines.
+
+
 ### Mullvad VPN Integration
 Route application-specific traffic (Web Search, URL Fetch) through Mullvad SOCKS5 proxies for maximum anonymity.
 - *Status: Implemented. Configurable in Settings.*
