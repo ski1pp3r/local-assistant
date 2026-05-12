@@ -44,6 +44,11 @@ A floating terminal window shows every API call, transcription event, memory upd
 ### Mullvad VPN Integration (SOCKS5)
 To enhance privacy, you can route the AI's web searches and URL fetches through a Mullvad VPN SOCKS5 proxy. This anonymizes the AI's external footprint without affecting the rest of your system. See [Mullvad Integration](docs/mullvad-integration.md) for details.
 
+> [!TIP]
+> **Why use this if I already have the Mullvad app running?**  
+> While a system-wide VPN protects your entire PC, enabling the SOCKS5 proxy inside OFFGRID provides an extra layer of security. It ensures that the app's web traffic *only* exits through Mullvad nodes and prevents potential leaks. It also enables the live protection status indicator in your settings.
+
+
 
 ---
 
