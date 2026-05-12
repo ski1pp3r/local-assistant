@@ -208,14 +208,14 @@ To interact with the local AI while away from the computer without exposing the 
 - Integrates with the **Telegram Bot API** (via BotFather).
 - The Pi acts as an intermediary relay: it receives Telegram messages and forwards them over the local LAN to the Electron app.
 - The Electron app queries the local AI and sends the response back to the Pi, which forwards it to Telegram.
-- *Status: Experimental. Active development. Architecture may change.*
+- *Status: Experimental. Active development. Coming soon.*
 
 ### Local File Access System (In Development)
 I am building an AI-controlled local file access system to allow the assistant to interact meaningfully with your local documents.
 
 - **Planned features**: Reading text files, searching specific directories, and limited file management.
 - **Security**: All file access will require explicit user visibility and permission. The AI will generate requests that the main application intercepts and asks the user to approve.
-- *Status: Experimental. Security-focused implementation planned.*
+- *Status: Experimental. Coming soon.*
 
 ### Wake Word Activation (Hands-Free Mode)
 I am building a specialized tool to enable wake word activation (e.g., "Hey OffGrid"). This will allow for a truly hands-free AI chatbot experience, where the assistant starts listening automatically upon hearing the trigger phrase.
