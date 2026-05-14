@@ -100,8 +100,13 @@ This compiles the Vite React application into the `dist/` directory.
 
 ## Windows Installer (.exe)
 
-> [!NOTE]
-> The official Windows Installer (.exe) is currently **in development**. For now, please use the manual startup or create a desktop shortcut as described below.
+The official Windows Installer and Portable versions are now available! 
+
+1. **Download**: Go to the [GitHub Releases](https://github.com/ski1pp3r/local-assistant/releases) page.
+2. **Choose Version**: 
+   - `OFFGRID-Setup-x.x.x.exe` for a full installation with desktop shortcuts.
+   - `OFFGRID-Portable-x.x.x.exe` to run the application without installation.
+3. **Automatic Updates**: Future versions will be handled automatically by the integrated auto-updater. You can also manually check for updates in the Settings panel.
 
 ## Quick Start Shortcut
 
