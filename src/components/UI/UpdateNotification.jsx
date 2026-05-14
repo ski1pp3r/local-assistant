@@ -1,12 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useSettings } from '../../hooks/useSettings';
+import { translations } from '../../utils/translations';
 import './UpdateNotification.css';
 
 const UpdateNotification = () => {
+  const { settings } = useSettings();
   const [status, setStatus] = useState(null); // 'checking', 'available', 'downloading', 'downloaded', 'error'
   const [info, setInfo] = useState(null);
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
+
+  const t = useCallback((key, params = {}) => {
+    const lang = settings?.ui_language || 'de';
+    let text = translations[lang][key] || translations['de'][key] || key;
+    Object.keys(params).forEach(p => {
+      text = text.replace(`{${p}}`, params[p]);
+    });
+    return text;
+  }, [settings]);
 
   useEffect(() => {
     if (window.electronAPI && window.electronAPI.onUpdateStatus) {
@@ -51,23 +63,23 @@ const UpdateNotification = () => {
       <div className="update-notification-content">
         <div className="update-header">
           <span className="update-icon">🚀</span>
-          <h3>Update Verfügbar</h3>
+          <h3>{t('update_available')}</h3>
           <button className="close-btn" onClick={handleClose}>&times;</button>
         </div>
         
         <div className="update-body">
           {status === 'available' && (
             <>
-              <p>Version {info?.version} ist jetzt verfügbar!</p>
+              <p>{t('update_ver_available', { version: info?.version })}</p>
               <button className="update-action-btn" onClick={handleDownload}>
-                Jetzt Herunterladen
+                {t('update_download_now')}
               </button>
             </>
           )}
 
           {status === 'downloading' && (
             <>
-              <p>Herunterladen... {Math.round(progress)}%</p>
+              <p>{t('transcribing').replace('TRANSKRIBIERUNG', 'DOWNLOADING').replace('TRANSCRIBING', 'DOWNLOADING')} {Math.round(progress)}%</p>
               <div className="progress-bar-container">
                 <div className="progress-bar-fill" style={{ width: `${progress}%` }}></div>
               </div>
@@ -76,15 +88,15 @@ const UpdateNotification = () => {
 
           {status === 'downloaded' && (
             <>
-              <p>Das Update wurde heruntergeladen und ist bereit zur Installation.</p>
+              <p>{t('update_ready_install')}</p>
               <button className="update-action-btn install" onClick={handleInstall}>
-                Jetzt Installieren & Neustarten
+                {t('update_install_now')}
               </button>
             </>
           )}
 
           {status === 'error' && (
-            <p className="error-text">Update Fehler: {error}</p>
+            <p className="error-text">{t('update_error')}: {error}</p>
           )}
         </div>
       </div>
@@ -93,3 +105,4 @@ const UpdateNotification = () => {
 };
 
 export default UpdateNotification;
+

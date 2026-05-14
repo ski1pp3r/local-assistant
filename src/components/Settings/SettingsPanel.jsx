@@ -157,14 +157,14 @@ export default function SettingsPanel({ onClose, onSettingsChanged, onClearThrea
             type="text"
             value={editingP.name}
             onChange={e => setEditingP({ ...editingP, name: e.target.value })}
-            placeholder="z.B. Coding-Assistent"
+            placeholder={t('placeholder_coding_assistant')}
           />
 
           <label>{t('user_info')}</label>
           <textarea
             value={editingP.nutzer_info}
             onChange={e => setEditingP({ ...editingP, nutzer_info: e.target.value })}
-            placeholder="Ich bin Max, 28, Softwareentwickler …"
+            placeholder={t('placeholder_user_info')}
             rows={3}
           />
 
@@ -172,7 +172,7 @@ export default function SettingsPanel({ onClose, onSettingsChanged, onClearThrea
           <textarea
             value={editingP.verhalten}
             onChange={e => setEditingP({ ...editingP, verhalten: e.target.value })}
-            placeholder="Antworte knapp und technisch, nutze Code-Beispiele …"
+            placeholder={t('placeholder_behavior')}
             rows={3}
           />
 
@@ -267,7 +267,7 @@ export default function SettingsPanel({ onClose, onSettingsChanged, onClearThrea
             checked={settings.Browser_Access || false}
             onChange={e => setSettings({ ...settings, Browser_Access: e.target.checked })}
           />
-          <label htmlFor="Browser_Access">{t('Browser_Access') || 'Browser-Zugriff für KI aktivieren'}</label>
+          <label htmlFor="Browser_Access">{t('Browser_Access')}</label>
         </div>
 
         <hr className="divider" />
@@ -283,7 +283,7 @@ export default function SettingsPanel({ onClose, onSettingsChanged, onClearThrea
           <label htmlFor="mullvad_proxy_enabled">Mullvad SOCKS5 Proxy</label>
         </div>
         <p style={{ fontSize: '11px', color: '#666', margin: '4px 0 0 24px', lineHeight: '1.4' }}>
-          Routes web searches and URL fetches through Mullvad's local SOCKS5 proxy (10.64.0.1:1080).
+          {t('mullvad_description')}
         </p>
         <div style={{ marginLeft: '24px' }}>
           <MullvadStatus enabled={settings.mullvad_proxy_enabled} />
@@ -323,7 +323,7 @@ export default function SettingsPanel({ onClose, onSettingsChanged, onClearThrea
             ) : (
               <>
                 <div style={{ flex: 1, fontSize: '11px', color: '#666' }}>
-                  Connect for cloud features.
+                  {t('puter_cloud_features')}
                 </div>
                 <button className="btn-primary" style={{ padding: '4px 10px', fontSize: '11px' }} onClick={handlePuterLogin}>
                   {t('puter_login_btn')}
@@ -365,7 +365,7 @@ export default function SettingsPanel({ onClose, onSettingsChanged, onClearThrea
             style={{ marginBottom: 0 }}
             value={newModelName}
             onChange={e => setNewModelName(e.target.value)}
-            placeholder="z.B. llama3, phi3:mini"
+            placeholder={t('placeholder_model')}
             disabled={pulling}
           />
           <button className="btn-primary" onClick={handlePullModel} disabled={pulling || !newModelName.trim()}>
@@ -391,7 +391,7 @@ export default function SettingsPanel({ onClose, onSettingsChanged, onClearThrea
           {models.map(m => (
             <div key={m} className="model-item">
               <span className="m-name">{m}</span>
-              <button className="del-btn" onClick={() => handleDeleteModel(m)} title="Löschen">✕</button>
+              <button className="del-btn" onClick={() => handleDeleteModel(m)} title={t('delete_title')}>✕</button>
             </div>
           ))}
         </div>
@@ -412,22 +412,22 @@ export default function SettingsPanel({ onClose, onSettingsChanged, onClearThrea
               onClick={() => window.electronAPI.checkForUpdates()}
               disabled={updateStatus.type === 'checking'}
             >
-              {updateStatus.type === 'checking' ? 'Prüfen...' : 'Nach Updates suchen'}
+              {updateStatus.type === 'checking' ? t('update_checking') : t('check_updates')}
             </button>
           </div>
           {updateStatus.type === 'available' && (
             <p style={{ fontSize: '11px', color: '#6366f1', marginTop: 8 }}>
-              Update verfügbar! Ein Hinweis wurde eingeblendet.
+              {t('update_available_notice')}
             </p>
           )}
           {updateStatus.type === 'not-available' && (
             <p style={{ fontSize: '11px', color: '#10b981', marginTop: 8 }}>
-              Du nutzt bereits die aktuellste Version.
+              {t('update_uptodate')}
             </p>
           )}
           {updateStatus.type === 'error' && (
             <p style={{ fontSize: '11px', color: '#ef4444', marginTop: 8 }}>
-              Fehler beim Suchen nach Updates.
+              {t('update_error_search')}
             </p>
           )}
         </div>
