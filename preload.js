@@ -8,6 +8,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
   openExternal: (url) => ipcRenderer.invoke('open-external', url),
   webSearch: (query) => ipcRenderer.invoke('web-search', query),
   fetchUrl: (url) => ipcRenderer.invoke('fetch-url', url),
+  getAppVersion: () => ipcRenderer.invoke('get-app-version'),
   checkForUpdates: () => ipcRenderer.invoke('check-for-updates'),
+  startDownload: () => ipcRenderer.invoke('start-download'),
+  quitAndInstall: () => ipcRenderer.invoke('quit-and-install'),
   onUpdateStatus: (callback) => ipcRenderer.on('update-status', (_event, value) => callback(value))
 });

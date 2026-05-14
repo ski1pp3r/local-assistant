@@ -1,4 +1,5 @@
 const { app, BrowserWindow, ipcMain, shell, Menu, dialog, protocol, net } = require('electron');
+const { autoUpdater } = require('electron-updater');
 const path = require('path');
 const fs = require('fs');
 const { spawn, exec } = require('child_process');
@@ -205,6 +206,49 @@ ipcMain.handle('fetch-url', async (_event, url) => {
   });
 });
 
+// ---------- Auto-Updater ----------
+autoUpdater.autoDownload = false;
+
+autoUpdater.on('checking-for-update', () => {
+  mainWindow?.webContents.send('update-status', { type: 'checking' });
+});
+
+autoUpdater.on('update-available', (info) => {
+  mainWindow?.webContents.send('update-status', { type: 'available', info });
+});
+
+autoUpdater.on('update-not-available', (info) => {
+  mainWindow?.webContents.send('update-status', { type: 'not-available', info });
+});
+
+autoUpdater.on('error', (err) => {
+  mainWindow?.webContents.send('update-status', { type: 'error', message: err.message });
+});
+
+autoUpdater.on('download-progress', (progressObj) => {
+  mainWindow?.webContents.send('update-status', { type: 'downloading', progress: progressObj });
+});
+
+autoUpdater.on('update-downloaded', (info) => {
+  mainWindow?.webContents.send('update-status', { type: 'downloaded', info });
+});
+
+ipcMain.handle('check-for-updates', async () => {
+  return autoUpdater.checkForUpdatesAndNotify();
+});
+
+ipcMain.handle('start-download', async () => {
+  return autoUpdater.downloadUpdate();
+});
+
+ipcMain.handle('quit-and-install', async () => {
+  autoUpdater.quitAndInstall();
+});
+
+ipcMain.handle('get-app-version', () => {
+  return app.getVersion();
+});
+
 
 
 // ---------- window ----------
@@ -263,6 +307,10 @@ app.whenReady().then(() => {
   ensureDataDir();
   Menu.setApplicationMenu(null);
   createWindow();
+
+  if (app.isPackaged) {
+    autoUpdater.checkForUpdatesAndNotify();
+  }
   
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();

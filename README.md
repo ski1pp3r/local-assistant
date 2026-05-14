@@ -35,198 +35,75 @@ Create AI personas with custom names, behavioral rules, and user profiles. Switc
 A floating terminal window shows every API call, transcription event, memory update, and error in real time. Open it with Ctrl+Shift+T.
 
 ### Voice Interaction (STT & TTS)
-**Speech-to-Text (STT):** Dictate your messages easily. The application uses a local transcription model (running directly in your browser) to guarantee your privacy. It dynamically switches transcription logic depending on your selected language (German or English).
+**Speech-to-Text (STT):** Dictate your messages easily. The application uses a local transcription model (running directly in your browser) to guarantee your privacy.
 
 **Text-to-Speech (TTS):** The AI can read its answers out loud using Puter.js. 
-> [!WARNING]  
-> Please note that the TTS feature currently only works reliably in **English**. I am working hard to ensure that German and other languages work flawlessly in upcoming updates!
 
 ### Mullvad VPN Integration (SOCKS5)
-To enhance privacy, you can route the AI's web searches and URL fetches through a Mullvad VPN SOCKS5 proxy. This anonymizes the AI's external footprint without affecting the rest of your system. See [Mullvad Integration](docs/mullvad-integration.md) for details.
-
-> [!TIP]
-> **Why use this if I already have the Mullvad app running?**  
-> Using the internal SOCKS5 proxy inside a VPN tunnel is considered the **"Gold Standard"** for privacy. It creates a "Tunnel within a Tunnel" effect, providing:
-> - **Double Protection**: An extra layer of anonymity within the Mullvad network.
-> - **Leak Prevention**: Ensures app traffic never bypasses the VPN tunnel.
-> - **Live Verification**: Enables the app to actively monitor and confirm your protection status.
-
-
-
+To enhance privacy, you can route the AI's web searches and URL fetches through a Mullvad VPN SOCKS5 proxy. See [Mullvad Integration](docs/mullvad-integration.md) for details.
 
 ---
 
-## Installation
+## 🚀 Installation (Recommended)
 
-To work on the source code, you'll need [Node.js](https://nodejs.org/) installed on your machine.
+The easiest way to use OFFGRID is to download the standalone installer. No Git or coding knowledge required.
 
+1.  **Download**: Go to the [GitHub Releases](https://github.com/ski1pp3r/local-assistant/releases) page.
+2.  **Install**: Download `OFFGRID-Setup-x.x.x.exe` and run it.
+3.  **Start**: Open OFFGRID from your Desktop or Start Menu.
+
+### 🔄 Automatic Updates
+OFFGRID features an integrated auto-updater. When a new version is released on GitHub, the app will automatically notify you and offer to install the update with a single click. You can also manually check for updates in the **Settings** panel.
+
+---
+
+## 🛠 For Developers
+
+If you want to contribute or build from source, follow these steps. You'll need [Node.js](https://nodejs.org/) installed.
+
+### Setup
 1. Clone the repository:
    ```bash
    git clone https://github.com/ski1pp3r/local-assistant.git
    cd local-assistant
    ```
-2. Install the necessary dependencies:
+2. Install dependencies:
    ```bash
    npm install
    ```
+3. Fix potential vulnerabilities:
+   ```bash
+   npm audit fix --force
+   ```
 
-> [!NOTE]
-> After cloning the repository and running `npm install`, you may encounter several security warnings (vulnerabilities). These can usually be resolved automatically by running:
-> ```bash
-> npm audit fix --force
-> ```
-> This command updates affected dependencies and fixes known vulnerabilities through forced updates.
-
-## Development Setup
-
-To start the application in developer mode, run:
-
+### Development Mode
+Start the Vite dev server and Electron:
 ```bash
 npm run dev
 ```
 
-> [!NOTE]
-> This command spins up a Vite dev server and opens the Electron window connecting to `localhost:5173`. Hot-reloading is active, so any changes made to the React frontend will appear immediately. This mode is strictly for developers.
-
-## Production Build
-
-To build the static files for production without packaging the app, run:
-
-```bash
-npm run build
-```
-
-This compiles the Vite React application into the `dist/` directory.
-
-## Windows Installer (.exe)
-
-> [!NOTE]
-> The official Windows Installer (.exe) is currently **in development**. For now, please use the manual startup or create a desktop shortcut as described below.
-
-## Quick Start Shortcut
-
-To start OFFGRID and Ollama with a single click, you can create a Windows shortcut:
-
-1. Right-click on your desktop and select **New > Shortcut**.
-2. For the location of the item, enter the following (replace `C:\PATH\TO\local-assistant` with the actual path where you cloned the folder):
-   ```cmd
-   C:\WINDOWS\system32\cmd.exe /c start "" ollama serve & timeout /t 5 /nobreak >nul & cd /d "C:\PATH\TO\local-assistant" & npm run dev
-   ```
-3. Name the shortcut **OFFGRID**.
-4. (Optional) Change the icon in the shortcut properties.
-
-> [!TIP]
-> You can find the correct path by opening the **local-assistant** folder in File Explorer, clicking the address bar at the top, and copying the text.
-
-Alternatively, you can use the `Start-OFFGRID.bat` file provided in the root directory. This file works automatically regardless of where the folder is located.
-
-**Easy Setup:**
-1. Right-click the `Start-OFFGRID.bat` file and select **Create shortcut**.
-2. Drag the new shortcut onto your desktop.
-3. Rename it to **OFFGRID**.
-
-### Stay Up to Date
-
-OFFGRID is designed for privacy and transparency. To stay informed about new features and improvements, please check for updates regularly.
-
-
-### Updating & Data Safety
-
-Since OFFGRID is designed for transparency, most users build their own versions from source. Here is how to update and keep your data safe:
-
-#### 1. Update the Source Code
-If you have cloned the repository, you can update to the latest version and rebuild the frontend with one command:
-```bash
-npm run update
-```
-*This command performs a `git pull`, updates dependencies, and rebuilds the production assets.*
-
-#### Troubleshooting: Update Conflicts
-If you see an error like `Your local changes to the following files would be overwritten by merge`, it means you have modified files locally that conflict with the update. To force the update and overwrite local changes (recommended if you want the latest official version), run:
-```bash
-git fetch --all
-git reset --hard origin/main
-npm run update
-```
-> [!CAUTION]
-> `git reset --hard` will discard all local changes to tracked files (like `package.json` or `src/`). Your `data/` folder is safe as it is ignored by Git.
-
-#### 2. Rebuild the App
-After updating the source, rebuild the production assets to ensure you are running the latest version:
-```bash
-npm run build
-```
-
-> [!TIP]
-> If you see security warnings after `npm run update`, you can try to resolve them by running `npm audit fix --force`.
-
-#### 3. Where is my Data?
-Your chats, settings, and personalities are stored in a folder named `data/` in your project root.
-
-> [!IMPORTANT]
-> When updating your version, always ensure you have a backup of the `data/` folder. While Git usually ignores this folder, a manual backup is the only way to guarantee your local AI history is 100% safe.
-
-
-
-## Ollama Setup Guide
-
-Ollama is a tool that allows you to run open-source large language models locally on your machine. No cloud APIs, no subscriptions, no internet required after the initial download.
-
-1. **Install Ollama**: Download and install Ollama from [ollama.com](https://ollama.com/).
-2. **Start the Service**: The Electron app attempts to start Ollama automatically. Alternatively, run:
-   ```bash
-   ollama serve
-   ```
-3. **Download Models**: Open a terminal and pull the models you wish to use. You can browse all available models at the [Ollama Models Library](https://ollama.com/library):
-   ```bash
-   ollama pull llama3
-   ollama pull mistral
-   ```
-4. **Verify**: List installed models:
-   ```bash
-   ollama list
-   ```
-
-The application connects to Ollama via its local HTTP API (`http://localhost:11434`), enabling secure, local model execution.
+### Building & Packaging
+- **Local Build**: `npm run build` (compiles to `dist/`)
+- **Create Installer**: `npm run dist` (creates `.exe` in `release/`)
+- **Release to GitHub**: `npm run release` (builds and uploads to GitHub)
 
 ---
 
-## Roadmap
+## 💾 Where is my Data?
+Your chats, settings, and personalities are stored in a folder named `data/` in your project root (or next to the `.exe` when installed). **Always backup this folder** before performing major system changes to ensure your local AI history is safe.
 
-This project is actively evolving. Here are the planned systems currently in development:
+---
 
-### Local AI processing (in development)
-I am working on making the system fully run locally. Depending on complexity, this may take some time.
+## 🏗 Ollama Setup Guide
+Ollama is required for the AI to work.
+1. **Install Ollama**: Download from [ollama.com](https://ollama.com/).
+2. **Download Models**: Run `ollama pull llama3` or `ollama pull mistral` in your terminal.
+3. **Verify**: The app connects automatically to `http://localhost:11434`.
 
-### Improvement of the Text-to-Speech model (“Puter AI”)
-Currently, the TTS model only works reliably in English. I am actively working on adding support for German as well.
-
-### Raspberry Pi Telegram Bridge (In Development)
-To interact with the local AI while away from the computer without exposing the PC directly to the internet, I am building a secure bridge system.
-
-- Uses a **Raspberry Pi Pico W** or **Raspberry Pi Zero 2W**.
-- Integrates with the **Telegram Bot API** (via BotFather).
-- The Pi acts as an intermediary relay: it receives Telegram messages and forwards them over the local LAN to the Electron app.
-- The Electron app queries the local AI and sends the response back to the Pi, which forwards it to Telegram.
-- *Status: Experimental. Active development. Coming soon.*
-
-### Local File Access System (In Development)
-I am building an AI-controlled local file access system to allow the assistant to interact meaningfully with your local documents.
-
-- **Planned features**: Reading text files, searching specific directories, and limited file management.
-- **Security**: All file access will require explicit user visibility and permission. The AI will generate requests that the main application intercepts and asks the user to approve.
-- *Status: Experimental. Coming soon.*
-
-### Wake Word Activation (Hands-Free Mode)
-I am building a specialized tool to enable wake word activation (e.g., "Hey OffGrid"). This will allow for a truly hands-free AI chatbot experience, where the assistant starts listening automatically upon hearing the trigger phrase.
-- *Status: Researching low-latency local wake word engines.*
-
-
+---
 
 ## Feedback & Contributions
-
-OFFGRID is a one-man project, built with passion for local and private AI. Any kind of tip, feedback, or idea is highly welcome! I would be very happy to hear from you if you try it out. Feel free to open an issue or reach out.
+OFFGRID is a one-man project, built with passion for local and private AI. Feel free to open an issue or reach out!
 
 ## License
-
 MIT License. See `LICENSE` for more information.

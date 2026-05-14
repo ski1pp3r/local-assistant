@@ -7,10 +7,12 @@
     "dev": "concurrently \"vite\" \"wait-on http://localhost:5173 && electron .\"",
     "build": "vite build",
     "start": "electron .",
-    "update": "git pull && npm install && npm run build"
+    "dist": "npm run build && electron-builder",
+    "release": "npm run build && electron-builder --publish always"
   },
   "dependencies": {
     "@huggingface/transformers": "^4.2.0",
+    "electron-updater": "^6.8.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-markdown": "^9.0.1",
@@ -65,15 +67,16 @@
       ],
       "icon": null
     },
+    "portable": {
+      "artifactName": "${productName}-Portable-${version}.${ext}"
+    },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "OFFGRID"
-    },
-    "portable": {
-      "artifactName": "OFFGRID-Portable.exe"
+      "shortcutName": "OFFGRID",
+      "artifactName": "${productName}-Setup-${version}.${ext}"
     }
   }
 }

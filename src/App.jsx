@@ -7,6 +7,7 @@ import MessageList from './components/Chat/MessageList';
 import ChatInput from './components/Chat/ChatInput';
 import SettingsPanel from './components/Settings/SettingsPanel';
 import NeuralCanvas from './components/UI/NeuralCanvas';
+import UpdateNotification from './components/UI/UpdateNotification';
 
 // Hooks
 import { useSettings } from './hooks/useSettings';
@@ -313,6 +314,7 @@ export default function App() {
           setPuterUser={setPuterUser}
         />
       )}
+      <UpdateNotification />
     </div>
   );
 }

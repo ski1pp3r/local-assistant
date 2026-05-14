@@ -20,6 +20,8 @@ export default function SettingsPanel({ onClose, onSettingsChanged, onClearThrea
   const [newModelName, setNewModelName] = useState('');
   const [pulling, setPulling] = useState(false);
   const [pullStatus, setPullStatus] = useState(null); 
+  const [version, setVersion] = useState('');
+  const [updateStatus, setUpdateStatus] = useState({ type: 'idle' });
 
 
   useEffect(() => {
@@ -28,6 +30,10 @@ export default function SettingsPanel({ onClose, onSettingsChanged, onClearThrea
       setSettings(s);
       setPersonalities(await loadPersonalities());
       setModels(await fetchModels(s.ollama_url));
+      if (window.electronAPI) {
+        setVersion(await window.electronAPI.getAppVersion());
+        window.electronAPI.onUpdateStatus((status) => setUpdateStatus(status));
+      }
       
       
 
@@ -388,6 +394,42 @@ export default function SettingsPanel({ onClose, onSettingsChanged, onClearThrea
               <button className="del-btn" onClick={() => handleDeleteModel(m)} title="Löschen">✕</button>
             </div>
           ))}
+        </div>
+
+        <hr className="divider" />
+
+        <div className="update-section" style={{ marginTop: 12, paddingBottom: 20 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div>
+              <label style={{ margin: 0, fontSize: '11px', color: '#666' }}>App Updates</label>
+              <p style={{ margin: '2px 0 0 0', fontSize: '12px', color: '#fff' }}>
+                Version {version}
+              </p>
+            </div>
+            <button 
+              className="btn-secondary" 
+              style={{ padding: '6px 12px', fontSize: '11px' }}
+              onClick={() => window.electronAPI.checkForUpdates()}
+              disabled={updateStatus.type === 'checking'}
+            >
+              {updateStatus.type === 'checking' ? 'Prüfen...' : 'Nach Updates suchen'}
+            </button>
+          </div>
+          {updateStatus.type === 'available' && (
+            <p style={{ fontSize: '11px', color: '#6366f1', marginTop: 8 }}>
+              Update verfügbar! Ein Hinweis wurde eingeblendet.
+            </p>
+          )}
+          {updateStatus.type === 'not-available' && (
+            <p style={{ fontSize: '11px', color: '#10b981', marginTop: 8 }}>
+              Du nutzt bereits die aktuellste Version.
+            </p>
+          )}
+          {updateStatus.type === 'error' && (
+            <p style={{ fontSize: '11px', color: '#ef4444', marginTop: 8 }}>
+              Fehler beim Suchen nach Updates.
+            </p>
+          )}
         </div>
       </div>
     </div>
