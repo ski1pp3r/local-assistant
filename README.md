@@ -126,13 +126,29 @@ If you prefer to build from source or contribute to the project, follow these st
    - Alternatively, use the `Start-OFFGRID.bat` file in the root directory to start Ollama and the app with one click.
 
 ### Updating
-- **EXE Users**: Updates are handled automatically via the integrated auto-updater in the Settings panel.
-- **Manual Users**: Stay up to date by pulling the latest changes and rebuilding:
-  ```bash
-  git pull
-  npm install
-  npm run build
-  ```
+Stay up to date by pulling the latest changes and rebuilding:
+```bash
+git pull
+npm install
+npm run build
+```
+
+#### Troubleshooting & Vulnerabilities
+If your local changes conflict with an update, you can force the latest official version with:
+```bash
+git fetch --all
+git reset --hard origin/main
+npm install
+npm run build
+```
+
+To fix security vulnerabilities in dependencies:
+```bash
+npm audit fix --force
+```
+
+> [!CAUTION]
+> `git reset --hard` will discard all local changes to tracked files. Your `data/` folder is safe as it is ignored by Git.
 
 ## Data & Safety
 Your chats and settings are stored in the `data/` folder in the project root. **Always backup this folder** before performing major updates to ensure your local AI history remains safe.
