@@ -110,16 +110,31 @@ The official Windows Installer and Portable versions are now available!
 
 ## Manual Setup (For Developers)
 
-If you prefer to build from source or contribute:
-1. **Clone**: `git clone https://github.com/ski1pp3r/local-assistant.git`
-2. **Install**: `npm install`
-3. **Run**: `npm run dev` (development) or use the `Start-OFFGRID.bat` file.
+If you prefer to build from source or contribute to the project, follow these steps. You will need [Node.js](https://nodejs.org/) installed.
+
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/ski1pp3r/local-assistant.git
+   cd local-assistant
+   ```
+2. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
+3. **Run the Application**:
+   - For development (with hot-reload): `npm run dev`
+   - Alternatively, use the `Start-OFFGRID.bat` file in the root directory to start Ollama and the app with one click.
 
 ### Updating
-- **EXE Users**: Updates are handled automatically via the integrated auto-updater in the app.
-- **Manual Users**: Run `git pull`, `npm install`, and `npm run build` to stay up to date.
+- **EXE Users**: Updates are handled automatically via the integrated auto-updater in the Settings panel.
+- **Manual Users**: Stay up to date by pulling the latest changes and rebuilding:
+  ```bash
+  git pull
+  npm install
+  npm run build
+  ```
 
-## 💾 Data & Safety
+## Data & Safety
 Your chats and settings are stored in the `data/` folder in the project root. **Always backup this folder** before performing major updates to ensure your local AI history remains safe.
 
 
