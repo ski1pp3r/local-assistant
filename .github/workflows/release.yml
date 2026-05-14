@@ -3,11 +3,13 @@ name: Release OFFGRID
 on:
   push:
     tags:
-      - 'v*' # Trigger on tags like v1.0.0, v1.1.0
+      - 'v*'
 
 jobs:
   release:
     runs-on: windows-latest
+    permissions:
+      contents: write # Required to create releases and upload assets
 
     steps:
       - name: Checkout Code
@@ -16,7 +18,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22 # Updated to fix deprecation warnings
           cache: 'npm'
 
       - name: Install Dependencies
