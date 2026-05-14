@@ -108,68 +108,19 @@ The official Windows Installer and Portable versions are now available!
    - `OFFGRID-Portable-x.x.x.exe` to run the application without installation.
 3. **Automatic Updates**: Future versions will be handled automatically by the integrated auto-updater. You can also manually check for updates in the Settings panel.
 
-## Quick Start Shortcut
+## Manual Setup (For Developers)
 
-To start OFFGRID and Ollama with a single click, you can create a Windows shortcut:
+If you prefer to build from source or contribute:
+1. **Clone**: `git clone https://github.com/ski1pp3r/local-assistant.git`
+2. **Install**: `npm install`
+3. **Run**: `npm run dev` (development) or use the `Start-OFFGRID.bat` file.
 
-1. Right-click on your desktop and select **New > Shortcut**.
-2. For the location of the item, enter the following (replace `C:\PATH\TO\local-assistant` with the actual path where you cloned the folder):
-   ```cmd
-   C:\WINDOWS\system32\cmd.exe /c start "" ollama serve & timeout /t 5 /nobreak >nul & cd /d "C:\PATH\TO\local-assistant" & npm run dev
-   ```
-3. Name the shortcut **OFFGRID**.
-4. (Optional) Change the icon in the shortcut properties.
+### Updating
+- **EXE Users**: Updates are handled automatically via the integrated auto-updater in the app.
+- **Manual Users**: Run `git pull`, `npm install`, and `npm run build` to stay up to date.
 
-> [!TIP]
-> You can find the correct path by opening the **local-assistant** folder in File Explorer, clicking the address bar at the top, and copying the text.
-
-Alternatively, you can use the `Start-OFFGRID.bat` file provided in the root directory. This file works automatically regardless of where the folder is located.
-
-**Easy Setup:**
-1. Right-click the `Start-OFFGRID.bat` file and select **Create shortcut**.
-2. Drag the new shortcut onto your desktop.
-3. Rename it to **OFFGRID**.
-
-### Stay Up to Date
-
-OFFGRID is designed for privacy and transparency. To stay informed about new features and improvements, please check for updates regularly.
-
-
-### Updating & Data Safety
-
-Since OFFGRID is designed for transparency, most users build their own versions from source. Here is how to update and keep your data safe:
-
-#### 1. Update the Source Code
-If you have cloned the repository, you can update to the latest version and rebuild the frontend with one command:
-```bash
-npm run update
-```
-*This command performs a `git pull`, updates dependencies, and rebuilds the production assets.*
-
-#### Troubleshooting: Update Conflicts
-If you see an error like `Your local changes to the following files would be overwritten by merge`, it means you have modified files locally that conflict with the update. To force the update and overwrite local changes (recommended if you want the latest official version), run:
-```bash
-git fetch --all
-git reset --hard origin/main
-npm run update
-```
-> [!CAUTION]
-> `git reset --hard` will discard all local changes to tracked files (like `package.json` or `src/`). Your `data/` folder is safe as it is ignored by Git.
-
-#### 2. Rebuild the App
-After updating the source, rebuild the production assets to ensure you are running the latest version:
-```bash
-npm run build
-```
-
-> [!TIP]
-> If you see security warnings after `npm run update`, you can try to resolve them by running `npm audit fix --force`.
-
-#### 3. Where is my Data?
-Your chats, settings, and personalities are stored in a folder named `data/` in your project root.
-
-> [!IMPORTANT]
-> When updating your version, always ensure you have a backup of the `data/` folder. While Git usually ignores this folder, a manual backup is the only way to guarantee your local AI history is 100% safe.
+## 💾 Data & Safety
+Your chats and settings are stored in the `data/` folder in the project root. **Always backup this folder** before performing major updates to ensure your local AI history remains safe.
 
 
 
